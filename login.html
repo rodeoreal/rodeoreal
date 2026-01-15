@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 - 화정동로데오부동산</title>
-    <link rel="stylesheet" href="css./common.css">
+    <link rel="stylesheet" href="./css/common.css">
 </head>
 <body>
     <div class="login-container">
@@ -40,9 +40,24 @@
         </div>
     </div>
 
-    <script src="js/common.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        // 세션 관리 (인라인)
+        const Session = {
+            set: (key, value) => sessionStorage.setItem(key, JSON.stringify(value)),
+            get: (key) => {
+                const value = sessionStorage.getItem(key);
+                return value ? JSON.parse(value) : null;
+            }
+        };
+
+        // 인증 관리 (인라인)
+        const Auth = {
+            setCurrentUser: (user) => Session.set('currentUser', user),
+            isAuthenticated: () => !!Session.get('currentUser')
+        };
+
+        // 로그인 폼 처리
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const email = document.getElementById('email').value.trim();
@@ -53,27 +68,49 @@
             
             let user = null;
             
+            // 계정 확인 (하드코딩)
             if (email === 'admin@rodeo.com' && password === 'temp1234!') {
-                user = { id: 'admin001', email: 'admin@rodeo.com', name: '관리자', role: 'admin', phone: '010-0000-0000' };
+                user = {
+                    id: 'admin001',
+                    email: 'admin@rodeo.com',
+                    name: '관리자',
+                    role: 'admin',
+                    phone: '010-0000-0000'
+                };
             } else if (email === 'staff1@rodeo.com' && password === 'temp1234!') {
-                user = { id: 'staff001', email: 'staff1@rodeo.com', name: '직원1', role: 'staff', phone: '010-0000-0001' };
+                user = {
+                    id: 'staff001',
+                    email: 'staff1@rodeo.com',
+                    name: '직원1',
+                    role: 'staff',
+                    phone: '010-0000-0001'
+                };
             } else if (email === 'staff2@rodeo.com' && password === 'temp1234!') {
-                user = { id: 'staff002', email: 'staff2@rodeo.com', name: '직원2', role: 'staff', phone: '010-0000-0002' };
+                user = {
+                    id: 'staff002',
+                    email: 'staff2@rodeo.com',
+                    name: '직원2',
+                    role: 'staff',
+                    phone: '010-0000-0002'
+                };
             }
             
             if (user) {
-                sessionStorage.setItem('currentUser', JSON.stringify(user));
-                window.location.href = 'index.html';
+                // 로그인 성공
+                Auth.setCurrentUser(user);
+                alert('로그인 성공! 대시보드로 이동합니다.');
+                window.location.href = './index.html';
             } else {
+                // 로그인 실패
                 errorMessage.textContent = '이메일 또는 비밀번호가 올바르지 않습니다.';
                 errorMessage.style.display = 'block';
             }
         });
         
-        if (sessionStorage.getItem('currentUser')) {
-            window.location.href = 'index.html';
+        // 이미 로그인된 경우 리다이렉트
+        if (Auth.isAuthenticated()) {
+            window.location.href = './index.html';
         }
     </script>
 </body>
 </html>
-
