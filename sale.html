@@ -1,371 +1,370 @@
- 1	<!DOCTYPE html>
-     2	<html lang="ko">
-     3	<head>
-     4	    <meta charset="UTF-8">
-     5	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     6	    <title>매매 물건 관리 - 화정동로데오부동산</title>
-     7	    <link rel="stylesheet" href="css/common.css">
-     8	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-     9	    <style>
-    10	        .calculator {
-    11	            background: linear-gradient(135deg, var(--naver-green) 0%, var(--naver-green-dark) 100%);
-    12	            color: white;
-    13	            padding: 20px;
-    14	            border-radius: 12px;
-    15	            margin-bottom: 24px;
-    16	            position: sticky;
-    17	            top: 0;
-    18	            z-index: 100;
-    19	            box-shadow: var(--shadow-md);
-    20	        }
-    21	        
-    22	        .calculator-title {
-    23	            font-size: 18px;
-    24	            font-weight: 700;
-    25	            margin-bottom: 16px;
-    26	            display: flex;
-    27	            align-items: center;
-    28	        }
-    29	        
-    30	        .calculator-icon {
-    31	            margin-right: 8px;
-    32	            font-size: 20px;
-    33	        }
-    34	        
-    35	        .calculator-grid {
-    36	            display: grid;
-    37	            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    38	            gap: 16px;
-    39	        }
-    40	        
-    41	        .calc-input-group {
-    42	            display: flex;
-    43	            flex-direction: column;
-    44	        }
-    45	        
-    46	        .calc-label {
-    47	            font-size: 13px;
-    48	            margin-bottom: 6px;
-    49	            opacity: 0.9;
-    50	        }
-    51	        
-    52	        .calc-input {
-    53	            padding: 10px 12px;
-    54	            border: none;
-    55	            border-radius: 6px;
-    56	            font-size: 15px;
-    57	            font-weight: 600;
-    58	        }
-    59	        
-    60	        .calc-result {
-    61	            display: flex;
-    62	            align-items: center;
-    63	            justify-content: center;
-    64	            background: rgba(255, 255, 255, 0.2);
-    65	            padding: 16px;
-    66	            border-radius: 8px;
-    67	            text-align: center;
-    68	        }
-    69	        
-    70	        .calc-result-inner {
-    71	            width: 100%;
-    72	        }
-    73	        
-    74	        .calc-result-label {
-    75	            font-size: 13px;
-    76	            opacity: 0.9;
-    77	            margin-bottom: 4px;
-    78	        }
-    79	        
-    80	        .calc-result-value {
-    81	            font-size: 24px;
-    82	            font-weight: 700;
-    83	        }
-    84	    </style>
-    85	</head>
-    86	<body>
-    87	    <div class="app-container">
-    88	        <!-- 사이드바 -->
-    89	        <aside class="sidebar">
-    90	            <div class="sidebar-header">
-    91	                <img src="images/logo.png" alt="화정동로데오부동산" class="sidebar-logo">
-    92	            </div>
-    93	            
-    94	            <nav class="sidebar-nav">
-    95	                <a href="index.html" class="nav-item">
-    96	                    <i class="fas fa-home nav-icon"></i>
-    97	                    <span>대시보드</span>
-    98	                </a>
-    99	                <a href="rental.html" class="nav-item">
-   100	                    <i class="fas fa-building nav-icon"></i>
-   101	                    <span>임대 물건</span>
-   102	                </a>
-   103	                <a href="sale.html" class="nav-item active">
-   104	                    <i class="fas fa-store nav-icon"></i>
-   105	                    <span>매매 물건</span>
-   106	                </a>
-   107	                <a href="customers.html" class="nav-item">
-   108	                    <i class="fas fa-users nav-icon"></i>
-   109	                    <span>손님(내방) 관리</span>
-   110	                </a>
-   111	                <a href="settings.html" class="nav-item" id="settingsNav" style="display: none;">
-   112	                    <i class="fas fa-cog nav-icon"></i>
-   113	                    <span>설정</span>
-   114	                </a>
-   115	            </nav>
-   116	            
-   117	            <div class="sidebar-footer">
-   118	                <div class="user-info">
-   119	                    <div class="user-avatar"><span id="userInitial">U</span></div>
-   120	                    <div>
-   121	                        <div class="user-name" style="font-weight: 600;">사용자</div>
-   122	                        <div class="user-role" style="font-size: 12px; color: var(--text-secondary);">직원</div>
-   123	                    </div>
-   124	                </div>
-   125	                <button class="logout-btn">로그아웃</button>
-   126	            </div>
-   127	        </aside>
-   128	        
-   129	        <!-- 메인 컨텐츠 -->
-   130	        <main class="main-content">
-   131	            <div class="topbar">
-   132	                <button class="mobile-menu-btn">
-   133	                    <i class="fas fa-bars"></i>
-   134	                </button>
-   135	                <h1 class="page-title">매매 물건 관리</h1>
-   136	                <div class="topbar-actions">
-   137	                    <button class="btn btn-secondary btn-sm" onclick="exportData()">
-   138	                        <i class="fas fa-download"></i> 내보내기
-   139	                    </button>
-   140	                    <button class="btn btn-primary btn-sm" onclick="openAddModal()">
-   141	                        <i class="fas fa-plus"></i> 물건 등록
-   142	                    </button>
-   143	                </div>
-   144	            </div>
-   145	            
-   146	            <div class="content-area">
-   147	                <!-- 수익률 계산기 -->
-   148	                <div class="calculator">
-   149	                    <div class="calculator-title">
-   150	                        <i class="fas fa-calculator calculator-icon"></i>
-   151	                        수익률 계산기
-   152	                    </div>
-   153	                    <div class="calculator-grid">
-   154	                        <div class="calc-input-group">
-   155	                            <label class="calc-label">매매가 (만원)</label>
-   156	                            <input type="number" id="calcSalePrice" class="calc-input" placeholder="0" oninput="calculateYield()">
-   157	                        </div>
-   158	                        <div class="calc-input-group">
-   159	                            <label class="calc-label">보증금 (만원)</label>
-   160	                            <input type="number" id="calcDeposit" class="calc-input" placeholder="0" oninput="calculateYield()">
-   161	                        </div>
-   162	                        <div class="calc-input-group">
-   163	                            <label class="calc-label">월세 (만원)</label>
-   164	                            <input type="number" id="calcMonthlyRent" class="calc-input" placeholder="0" oninput="calculateYield()">
-   165	                        </div>
-   166	                        <div class="calc-result">
-   167	                            <div class="calc-result-inner">
-   168	                                <div class="calc-result-label">연 수익</div>
-   169	                                <div class="calc-result-value" id="calcAnnualIncome">0원</div>
-   170	                            </div>
-   171	                        </div>
-   172	                        <div class="calc-result">
-   173	                            <div class="calc-result-inner">
-   174	                                <div class="calc-result-label">수익률</div>
-   175	                                <div class="calc-result-value" id="calcYieldRate">0%</div>
-   176	                            </div>
-   177	                        </div>
-   178	                    </div>
-   179	                </div>
-   180	                
-   181	                <!-- 검색 및 필터 -->
-   182	                <div class="card">
-   183	                    <div class="search-filters">
-   184	                        <input type="text" id="searchInput" class="search-input" placeholder="물건지, 건물명, 상호로 검색...">
-   185	                        <select id="statusFilter" class="filter-select">
-   186	                            <option value="">전체 상태</option>
-   187	                            <option value="접수">접수</option>
-   188	                            <option value="진행중">진행중</option>
-   189	                            <option value="계약완료">계약완료</option>
-   190	                            <option value="보류">보류</option>
-   191	                        </select>
-   192	                        <select id="yieldFilter" class="filter-select">
-   193	                            <option value="">전체 수익률</option>
-   194	                            <option value="5">5% 이상</option>
-   195	                            <option value="7">7% 이상</option>
-   196	                            <option value="10">10% 이상</option>
-   197	                        </select>
-   198	                    </div>
-   199	                </div>
-   200	                
-   201	                <!-- 물건 목록 -->
-   202	                <div class="card">
-   203	                    <div class="table-container">
-   204	                        <table id="saleTable">
-   205	                            <thead>
-   206	                                <tr>
-   207	                                    <th>물건지</th>
-   208	                                    <th>건물명</th>
-   209	                                    <th>현재상호</th>
-   210	                                    <th>층</th>
-   211	                                    <th>분양면적(평)</th>
-   212	                                    <th>실면적(평)</th>
-   213	                                    <th>매매가</th>
-   214	                                    <th>보증금</th>
-   215	                                    <th>월세</th>
-   216	                                    <th>수익률</th>
-   217	                                    <th>접수일</th>
-   218	                                    <th>상태</th>
-   219	                                    <th>관리</th>
-   220	                                </tr>
-   221	                            </thead>
-   222	                            <tbody id="saleTableBody">
-   223	                                <tr>
-   224	                                    <td colspan="13" style="text-align: center; padding: 40px;">
-   225	                                        <div class="spinner"></div>
-   226	                                        데이터를 불러오는 중...
-   227	                                    </td>
-   228	                                </tr>
-   229	                            </tbody>
-   230	                        </table>
-   231	                    </div>
-   232	                </div>
-   233	            </div>
-   234	        </main>
-   235	    </div>
-   236	
-   237	    <!-- 등록/수정 모달 -->
-   238	    <div id="saleModal" class="modal">
-   239	        <div class="modal-content" style="max-width: 800px;">
-   240	            <div class="modal-header">
-   241	                <h2 class="modal-title" id="modalTitle">매매 물건 등록</h2>
-   242	                <button class="modal-close" onclick="closeModal()">&times;</button>
-   243	            </div>
-   244	            <div class="modal-body">
-   245	                <form id="saleForm">
-   246	                    <input type="hidden" id="propertyId">
-   247	                    
-   248	                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-   249	                        <div class="form-group">
-   250	                            <label class="form-label" for="address">물건지 (주소) *</label>
-   251	                            <input type="text" id="address" class="form-input" required>
-   252	                        </div>
-   253	                        
-   254	                        <div class="form-group">
-   255	                            <label class="form-label" for="buildingName">건물명 *</label>
-   256	                            <input type="text" id="buildingName" class="form-input" required>
-   257	                        </div>
-   258	                        
-   259	                        <div class="form-group">
-   260	                            <label class="form-label" for="currentStore">현재상호</label>
-   261	                            <input type="text" id="currentStore" class="form-input">
-   262	                        </div>
-   263	                        
-   264	                        <div class="form-group">
-   265	                            <label class="form-label" for="receivedDate">접수일자 *</label>
-   266	                            <input type="date" id="receivedDate" class="form-input" required>
-   267	                        </div>
-   268	                        
-   269	                        <div class="form-group">
-   270	                            <label class="form-label" for="floor">층 *</label>
-   271	                            <input type="text" id="floor" class="form-input" required placeholder="예: 1층, 지하1층">
-   272	                        </div>
-   273	                        
-   274	                        <div class="form-group">
-   275	                            <label class="form-label" for="contractArea">분양면적 (평) *</label>
-   276	                            <input type="number" id="contractArea" class="form-input" step="0.1" required>
-   277	                        </div>
-   278	                        
-   279	                        <div class="form-group">
-   280	                            <label class="form-label" for="actualArea">실면적 (평) *</label>
-   281	                            <input type="number" id="actualArea" class="form-input" step="0.1" required>
-   282	                        </div>
-   283	                        
-   284	                        <div class="form-group">
-   285	                            <label class="form-label" for="contact">연락처</label>
-   286	                            <input type="tel" id="contact" class="form-input" placeholder="010-0000-0000">
-   287	                        </div>
-   288	                        
-   289	                        <div class="form-group">
-   290	                            <label class="form-label" for="salePrice">매매가 (만원) *</label>
-   291	                            <input type="number" id="salePrice" class="form-input" required oninput="autoCalculateYield()">
-   292	                        </div>
-   293	                        
-   294	                        <div class="form-group">
-   295	                            <label class="form-label" for="deposit">보증금 (만원) *</label>
-   296	                            <input type="number" id="deposit" class="form-input" required oninput="autoCalculateYield()">
-   297	                        </div>
-   298	                        
-   299	                        <div class="form-group">
-   300	                            <label class="form-label" for="monthlyRent">월세 (만원) *</label>
-   301	                            <input type="number" id="monthlyRent" class="form-input" required oninput="autoCalculateYield()">
-   302	                        </div>
-   303	                        
-   304	                        <div class="form-group">
-   305	                            <label class="form-label" for="yieldRate">수익률 (%)</label>
-   306	                            <input type="number" id="yieldRate" class="form-input" step="0.01" readonly style="background-color: #F8F9FA;">
-   307	                        </div>
-   308	                        
-   309	                        <div class="form-group">
-   310	                            <label class="form-label" for="status">진행상태 *</label>
-   311	                            <select id="status" class="form-input" required>
-   312	                                <option value="접수">접수</option>
-   313	                                <option value="진행중">진행중</option>
-   314	                                <option value="계약완료">계약완료</option>
-   315	                                <option value="보류">보류</option>
-   316	                            </select>
-   317	                        </div>
-   318	                    </div>
-   319	                    
-   320	                    <div class="form-group">
-   321	                        <label class="form-label" for="notes">비고</label>
-   322	                        <textarea id="notes" class="form-input" rows="4" placeholder="추가 정보나 특이사항을 입력하세요"></textarea>
-   323	                    </div>
-   324	                    
-   325	                    <div class="form-group">
-   326	                        <label class="form-label">사진</label>
-   327	                        <input type="file" id="photoUpload" accept="image/*" multiple style="display: none;">
-   328	                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('photoUpload').click()">
-   329	                            <i class="fas fa-camera"></i> 사진 추가
-   330	                        </button>
-   331	                        <div id="photoPreview" style="margin-top: 12px;"></div>
-   332	                    </div>
-   333	                    
-   334	                    <div class="form-group">
-   335	                        <label class="form-label">첨부파일</label>
-   336	                        <input type="file" id="fileUpload" multiple style="display: none;">
-   337	                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('fileUpload').click()">
-   338	                            <i class="fas fa-paperclip"></i> 파일 추가
-   339	                        </button>
-   340	                        <div id="fileList" style="margin-top: 12px;"></div>
-   341	                    </div>
-   342	                </form>
-   343	            </div>
-   344	            <div class="modal-footer">
-   345	                <button type="button" class="btn btn-secondary" onclick="closeModal()">취소</button>
-   346	                <button type="button" class="btn btn-primary" onclick="saveProperty()">저장</button>
-   347	            </div>
-   348	        </div>
-   349	    </div>
-   350	
-   351	    <!-- 상세보기 모달 -->
-   352	    <div id="detailModal" class="modal">
-   353	        <div class="modal-content" style="max-width: 800px;">
-   354	            <div class="modal-header">
-   355	                <h2 class="modal-title">물건 상세정보</h2>
-   356	                <button class="modal-close" onclick="Modal.close('detailModal')">&times;</button>
-   357	            </div>
-   358	            <div class="modal-body" id="detailContent">
-   359	                <!-- 상세 내용이 동적으로 삽입됩니다 -->
-   360	            </div>
-   361	            <div class="modal-footer">
-   362	                <button type="button" class="btn btn-secondary" onclick="Modal.close('detailModal')">닫기</button>
-   363	            </div>
-   364	        </div>
-   365	    </div>
-   366	
-   367	    <script src="js/common.js"></script>
-   368	    <script src="js/sale.js"></script>
-   369	</body>
-   370	</html>
-   371	
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>매매 물건 관리 - 화정동로데오부동산</title>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        .calculator {
+            background: linear-gradient(135deg, var(--naver-green) 0%, var(--naver-green-dark) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .calculator-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .calculator-icon {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .calc-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .calc-label {
+            font-size: 13px;
+            margin-bottom: 6px;
+            opacity: 0.9;
+        }
+        
+        .calc-input {
+            padding: 10px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .calc-result {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .calc-result-inner {
+            width: 100%;
+        }
+        
+        .calc-result-label {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+        
+        .calc-result-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 사이드바 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="./images/logo.png" alt="화정동로데오부동산" class="sidebar-logo">
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span>대시보드</span>
+                </a>
+                <a href="rental.html" class="nav-item">
+                    <i class="fas fa-building nav-icon"></i>
+                    <span>임대 물건</span>
+                </a>
+                <a href="sale.html" class="nav-item active">
+                    <i class="fas fa-store nav-icon"></i>
+                    <span>매매 물건</span>
+                </a>
+                <a href="customers.html" class="nav-item">
+                    <i class="fas fa-users nav-icon"></i>
+                    <span>손님(내방) 관리</span>
+                </a>
+                <a href="settings.html" class="nav-item" id="settingsNav" style="display: none;">
+                    <i class="fas fa-cog nav-icon"></i>
+                    <span>설정</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar"><span id="userInitial">U</span></div>
+                    <div>
+                        <div class="user-name" style="font-weight: 600;">사용자</div>
+                        <div class="user-role" style="font-size: 12px; color: var(--text-secondary);">직원</div>
+                    </div>
+                </div>
+                <button class="logout-btn">로그아웃</button>
+            </div>
+        </aside>
+        
+        <!-- 메인 컨텐츠 -->
+        <main class="main-content">
+            <div class="topbar">
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">매매 물건 관리</h1>
+                <div class="topbar-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="exportData()">
+                        <i class="fas fa-download"></i> 내보내기
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="openAddModal()">
+                        <i class="fas fa-plus"></i> 물건 등록
+                    </button>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <!-- 수익률 계산기 -->
+                <div class="calculator">
+                    <div class="calculator-title">
+                        <i class="fas fa-calculator calculator-icon"></i>
+                        수익률 계산기
+                    </div>
+                    <div class="calculator-grid">
+                        <div class="calc-input-group">
+                            <label class="calc-label">매매가 (만원)</label>
+                            <input type="number" id="calcSalePrice" class="calc-input" placeholder="0" oninput="calculateYield()">
+                        </div>
+                        <div class="calc-input-group">
+                            <label class="calc-label">보증금 (만원)</label>
+                            <input type="number" id="calcDeposit" class="calc-input" placeholder="0" oninput="calculateYield()">
+                        </div>
+                        <div class="calc-input-group">
+                            <label class="calc-label">월세 (만원)</label>
+                            <input type="number" id="calcMonthlyRent" class="calc-input" placeholder="0" oninput="calculateYield()">
+                        </div>
+                        <div class="calc-result">
+                            <div class="calc-result-inner">
+                                <div class="calc-result-label">연 수익</div>
+                                <div class="calc-result-value" id="calcAnnualIncome">0원</div>
+                            </div>
+                        </div>
+                        <div class="calc-result">
+                            <div class="calc-result-inner">
+                                <div class="calc-result-label">수익률</div>
+                                <div class="calc-result-value" id="calcYieldRate">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 검색 및 필터 -->
+                <div class="card">
+                    <div class="search-filters">
+                        <input type="text" id="searchInput" class="search-input" placeholder="물건지, 건물명, 상호로 검색...">
+                        <select id="statusFilter" class="filter-select">
+                            <option value="">전체 상태</option>
+                            <option value="접수">접수</option>
+                            <option value="진행중">진행중</option>
+                            <option value="계약완료">계약완료</option>
+                            <option value="보류">보류</option>
+                        </select>
+                        <select id="yieldFilter" class="filter-select">
+                            <option value="">전체 수익률</option>
+                            <option value="5">5% 이상</option>
+                            <option value="7">7% 이상</option>
+                            <option value="10">10% 이상</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- 물건 목록 -->
+                <div class="card">
+                    <div class="table-container">
+                        <table id="saleTable">
+                            <thead>
+                                <tr>
+                                    <th>물건지</th>
+                                    <th>건물명</th>
+                                    <th>현재상호</th>
+                                    <th>층</th>
+                                    <th>분양면적(평)</th>
+                                    <th>실면적(평)</th>
+                                    <th>매매가</th>
+                                    <th>보증금</th>
+                                    <th>월세</th>
+                                    <th>수익률</th>
+                                    <th>접수일</th>
+                                    <th>상태</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                            <tbody id="saleTableBody">
+                                <tr>
+                                    <td colspan="13" style="text-align: center; padding: 40px;">
+                                        <div class="spinner"></div>
+                                        데이터를 불러오는 중...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 등록/수정 모달 -->
+    <div id="saleModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">매매 물건 등록</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="saleForm">
+                    <input type="hidden" id="propertyId">
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="address">물건지 (주소) *</label>
+                            <input type="text" id="address" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="buildingName">건물명 *</label>
+                            <input type="text" id="buildingName" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="currentStore">현재상호</label>
+                            <input type="text" id="currentStore" class="form-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="receivedDate">접수일자 *</label>
+                            <input type="date" id="receivedDate" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="floor">층 *</label>
+                            <input type="text" id="floor" class="form-input" required placeholder="예: 1층, 지하1층">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="contractArea">분양면적 (평) *</label>
+                            <input type="number" id="contractArea" class="form-input" step="0.1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="actualArea">실면적 (평) *</label>
+                            <input type="number" id="actualArea" class="form-input" step="0.1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="contact">연락처</label>
+                            <input type="tel" id="contact" class="form-input" placeholder="010-0000-0000">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="salePrice">매매가 (만원) *</label>
+                            <input type="number" id="salePrice" class="form-input" required oninput="autoCalculateYield()">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="deposit">보증금 (만원) *</label>
+                            <input type="number" id="deposit" class="form-input" required oninput="autoCalculateYield()">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="monthlyRent">월세 (만원) *</label>
+                            <input type="number" id="monthlyRent" class="form-input" required oninput="autoCalculateYield()">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="yieldRate">수익률 (%)</label>
+                            <input type="number" id="yieldRate" class="form-input" step="0.01" readonly style="background-color: #F8F9FA;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="status">진행상태 *</label>
+                            <select id="status" class="form-input" required>
+                                <option value="접수">접수</option>
+                                <option value="진행중">진행중</option>
+                                <option value="계약완료">계약완료</option>
+                                <option value="보류">보류</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="notes">비고</label>
+                        <textarea id="notes" class="form-input" rows="4" placeholder="추가 정보나 특이사항을 입력하세요"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">사진</label>
+                        <input type="file" id="photoUpload" accept="image/*" multiple style="display: none;">
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('photoUpload').click()">
+                            <i class="fas fa-camera"></i> 사진 추가
+                        </button>
+                        <div id="photoPreview" style="margin-top: 12px;"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">첨부파일</label>
+                        <input type="file" id="fileUpload" multiple style="display: none;">
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('fileUpload').click()">
+                            <i class="fas fa-paperclip"></i> 파일 추가
+                        </button>
+                        <div id="fileList" style="margin-top: 12px;"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">취소</button>
+                <button type="button" class="btn btn-primary" onclick="saveProperty()">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 상세보기 모달 -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 class="modal-title">물건 상세정보</h2>
+                <button class="modal-close" onclick="Modal.close('detailModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="detailContent">
+                <!-- 상세 내용이 동적으로 삽입됩니다 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="Modal.close('detailModal')">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/common.js"></script>
+    <script src="./js/sale.js"></script>
+</body>
+</html>
