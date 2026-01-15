@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 - 화정동로데오부동산</title>
-    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="/rodeoreal/css/common.css">
 </head>
 <body>
     <div class="login-container">
         <div class="login-box">
             <div class="login-logo">
-                <img src="./images/logo.png" alt="화정동로데오부동산">
+                <img src="/rodeoreal/images/logo.png" alt="화정동로데오부동산">
             </div>
             <h1 class="login-title">상가 물건 관리 시스템</h1>
             
@@ -99,7 +99,7 @@
                 // 로그인 성공
                 Auth.setCurrentUser(user);
                 alert('로그인 성공! 대시보드로 이동합니다.');
-                window.location.href = './index.html';
+                window.location.href = '/rodeoreal/index.html';
             } else {
                 // 로그인 실패
                 errorMessage.textContent = '이메일 또는 비밀번호가 올바르지 않습니다.';
@@ -109,8 +109,9 @@
         
         // 이미 로그인된 경우 리다이렉트
         if (Auth.isAuthenticated()) {
-            window.location.href = './index.html';
+            window.location.href = '/rodeoreal/index.html';
         }
     </script>
 </body>
 </html>
+
