@@ -1,0 +1,189 @@
+  1	<!DOCTYPE html>
+     2	<html lang="ko">
+     3	<head>
+     4	    <meta charset="UTF-8">
+     5	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     6	    <title>손님(내방) 관리 - 화정동로데오부동산</title>
+     7	    <link rel="stylesheet" href="css/common.css">
+     8	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+     9	</head>
+    10	<body>
+    11	    <div class="app-container">
+    12	        <!-- 사이드바 -->
+    13	        <aside class="sidebar">
+    14	            <div class="sidebar-header">
+    15	                <img src="images/logo.png" alt="화정동로데오부동산" class="sidebar-logo">
+    16	            </div>
+    17	            
+    18	            <nav class="sidebar-nav">
+    19	                <a href="index.html" class="nav-item">
+    20	                    <i class="fas fa-home nav-icon"></i>
+    21	                    <span>대시보드</span>
+    22	                </a>
+    23	                <a href="rental.html" class="nav-item">
+    24	                    <i class="fas fa-building nav-icon"></i>
+    25	                    <span>임대 물건</span>
+    26	                </a>
+    27	                <a href="sale.html" class="nav-item">
+    28	                    <i class="fas fa-store nav-icon"></i>
+    29	                    <span>매매 물건</span>
+    30	                </a>
+    31	                <a href="customers.html" class="nav-item active">
+    32	                    <i class="fas fa-users nav-icon"></i>
+    33	                    <span>손님(내방) 관리</span>
+    34	                </a>
+    35	                <a href="settings.html" class="nav-item" id="settingsNav" style="display: none;">
+    36	                    <i class="fas fa-cog nav-icon"></i>
+    37	                    <span>설정</span>
+    38	                </a>
+    39	            </nav>
+    40	            
+    41	            <div class="sidebar-footer">
+    42	                <div class="user-info">
+    43	                    <div class="user-avatar"><span id="userInitial">U</span></div>
+    44	                    <div>
+    45	                        <div class="user-name" style="font-weight: 600;">사용자</div>
+    46	                        <div class="user-role" style="font-size: 12px; color: var(--text-secondary);">직원</div>
+    47	                    </div>
+    48	                </div>
+    49	                <button class="logout-btn">로그아웃</button>
+    50	            </div>
+    51	        </aside>
+    52	        
+    53	        <!-- 메인 컨텐츠 -->
+    54	        <main class="main-content">
+    55	            <div class="topbar">
+    56	                <button class="mobile-menu-btn">
+    57	                    <i class="fas fa-bars"></i>
+    58	                </button>
+    59	                <h1 class="page-title">손님(내방) 관리</h1>
+    60	                <div class="topbar-actions">
+    61	                    <button class="btn btn-secondary btn-sm" onclick="exportData()">
+    62	                        <i class="fas fa-download"></i> 내보내기
+    63	                    </button>
+    64	                    <button class="btn btn-primary btn-sm" onclick="openAddModal()">
+    65	                        <i class="fas fa-plus"></i> 손님 등록
+    66	                    </button>
+    67	                </div>
+    68	            </div>
+    69	            
+    70	            <div class="content-area">
+    71	                <!-- 검색 및 필터 -->
+    72	                <div class="card">
+    73	                    <div class="search-filters">
+    74	                        <input type="text" id="searchInput" class="search-input" placeholder="찾는물건, 연락처로 검색...">
+    75	                        <select id="statusFilter" class="filter-select">
+    76	                            <option value="">전체 상태</option>
+    77	                            <option value="대기">대기</option>
+    78	                            <option value="진행중">진행중</option>
+    79	                            <option value="계약완료">계약완료</option>
+    80	                            <option value="포기">포기</option>
+    81	                        </select>
+    82	                        <input type="date" id="dateFilter" class="filter-select" placeholder="방문일">
+    83	                    </div>
+    84	                </div>
+    85	                
+    86	                <!-- 손님 목록 -->
+    87	                <div class="card">
+    88	                    <div class="table-container">
+    89	                        <table id="customerTable">
+    90	                            <thead>
+    91	                                <tr>
+    92	                                    <th>방문(내전)일자</th>
+    93	                                    <th>찾는물건(업종)</th>
+    94	                                    <th>연락처</th>
+    95	                                    <th>특이사항</th>
+    96	                                    <th>상태</th>
+    97	                                    <th>관리</th>
+    98	                                </tr>
+    99	                            </thead>
+   100	                            <tbody id="customerTableBody">
+   101	                                <tr>
+   102	                                    <td colspan="6" style="text-align: center; padding: 40px;">
+   103	                                        <div class="spinner"></div>
+   104	                                        데이터를 불러오는 중...
+   105	                                    </td>
+   106	                                </tr>
+   107	                            </tbody>
+   108	                        </table>
+   109	                    </div>
+   110	                </div>
+   111	            </div>
+   112	        </main>
+   113	    </div>
+   114	
+   115	    <!-- 등록/수정 모달 -->
+   116	    <div id="customerModal" class="modal">
+   117	        <div class="modal-content">
+   118	            <div class="modal-header">
+   119	                <h2 class="modal-title" id="modalTitle">손님 등록</h2>
+   120	                <button class="modal-close" onclick="closeModal()">&times;</button>
+   121	            </div>
+   122	            <div class="modal-body">
+   123	                <form id="customerForm">
+   124	                    <input type="hidden" id="customerId">
+   125	                    
+   126	                    <div class="form-group">
+   127	                        <label class="form-label" for="visitDate">방문(내전)일자 *</label>
+   128	                        <input type="date" id="visitDate" class="form-input" required>
+   129	                    </div>
+   130	                    
+   131	                    <div class="form-group">
+   132	                        <label class="form-label" for="lookingFor">찾는물건(업종) *</label>
+   133	                        <input type="text" id="lookingFor" class="form-input" required placeholder="예: 카페, 음식점, 편의점 등">
+   134	                    </div>
+   135	                    
+   136	                    <div class="form-group">
+   137	                        <label class="form-label" for="contact">연락처 *</label>
+   138	                        <input type="tel" id="contact" class="form-input" required placeholder="010-0000-0000">
+   139	                    </div>
+   140	                    
+   141	                    <div class="form-group">
+   142	                        <label class="form-label" for="specialNotes">특이사항</label>
+   143	                        <input type="text" id="specialNotes" class="form-input" placeholder="예: 1층 선호, 주차 필수 등">
+   144	                    </div>
+   145	                    
+   146	                    <div class="form-group">
+   147	                        <label class="form-label" for="status">상태 *</label>
+   148	                        <select id="status" class="form-input" required>
+   149	                            <option value="대기">대기</option>
+   150	                            <option value="진행중">진행중</option>
+   151	                            <option value="계약완료">계약완료</option>
+   152	                            <option value="포기">포기</option>
+   153	                        </select>
+   154	                    </div>
+   155	                    
+   156	                    <div class="form-group">
+   157	                        <label class="form-label" for="memo">비고</label>
+   158	                        <textarea id="memo" class="form-input" rows="4" placeholder="추가 정보나 메모를 입력하세요"></textarea>
+   159	                    </div>
+   160	                </form>
+   161	            </div>
+   162	            <div class="modal-footer">
+   163	                <button type="button" class="btn btn-secondary" onclick="closeModal()">취소</button>
+   164	                <button type="button" class="btn btn-primary" onclick="saveCustomer()">저장</button>
+   165	            </div>
+   166	        </div>
+   167	    </div>
+   168	
+   169	    <!-- 상세보기 모달 -->
+   170	    <div id="detailModal" class="modal">
+   171	        <div class="modal-content">
+   172	            <div class="modal-header">
+   173	                <h2 class="modal-title">손님 상세정보</h2>
+   174	                <button class="modal-close" onclick="Modal.close('detailModal')">&times;</button>
+   175	            </div>
+   176	            <div class="modal-body" id="detailContent">
+   177	                <!-- 상세 내용이 동적으로 삽입됩니다 -->
+   178	            </div>
+   179	            <div class="modal-footer">
+   180	                <button type="button" class="btn btn-secondary" onclick="Modal.close('detailModal')">닫기</button>
+   181	            </div>
+   182	        </div>
+   183	    </div>
+   184	
+   185	    <script src="js/common.js"></script>
+   186	    <script src="js/customers.js"></script>
+   187	</body>
+   188	</html>
+   189	

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - 화정동로데오부동산</title>
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="images/logo.png" alt="화정동로데오부동산">
+            </div>
+            <h1 class="login-title">상가 물건 관리 시스템</h1>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="email">이메일</label>
+                    <input type="email" id="email" class="form-input" placeholder="이메일을 입력하세요" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">비밀번호</label>
+                    <input type="password" id="password" class="form-input" placeholder="비밀번호를 입력하세요" required>
+                </div>
+                
+                <div id="errorMessage" class="alert alert-error" style="display: none;"></div>
+                
+                <button type="submit" class="btn btn-primary">로그인</button>
+            </form>
+            
+            <div style="margin-top: 24px; padding: 16px; background: #F8F9FA; border-radius: 8px; font-size: 13px; color: #666;">
+                <strong>초기 계정 정보:</strong><br>
+                관리자: admin@rodeo.com / temp1234!<br>
+                직원1: staff1@rodeo.com / temp1234!<br>
+                직원2: staff2@rodeo.com / temp1234!<br>
+                <small style="color: #999; display: block; margin-top: 8px;">* 첫 로그인 후 비밀번호를 변경해주세요</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            errorMessage.style.display = 'none';
+            
+            let user = null;
+            
+            if (email === 'admin@rodeo.com' && password === 'temp1234!') {
+                user = { id: 'admin001', email: 'admin@rodeo.com', name: '관리자', role: 'admin', phone: '010-0000-0000' };
+            } else if (email === 'staff1@rodeo.com' && password === 'temp1234!') {
+                user = { id: 'staff001', email: 'staff1@rodeo.com', name: '직원1', role: 'staff', phone: '010-0000-0001' };
+            } else if (email === 'staff2@rodeo.com' && password === 'temp1234!') {
+                user = { id: 'staff002', email: 'staff2@rodeo.com', name: '직원2', role: 'staff', phone: '010-0000-0002' };
+            }
+            
+            if (user) {
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            } else {
+                errorMessage.textContent = '이메일 또는 비밀번호가 올바르지 않습니다.';
+                errorMessage.style.display = 'block';
+            }
+        });
+        
+        if (sessionStorage.getItem('currentUser')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

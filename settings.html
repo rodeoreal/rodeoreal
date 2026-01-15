@@ -1,0 +1,235 @@
+ 1	<!DOCTYPE html>
+     2	<html lang="ko">
+     3	<head>
+     4	    <meta charset="UTF-8">
+     5	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     6	    <title>설정 - 화정동로데오부동산</title>
+     7	    <link rel="stylesheet" href="css/common.css">
+     8	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+     9	</head>
+    10	<body>
+    11	    <div class="app-container">
+    12	        <!-- 사이드바 -->
+    13	        <aside class="sidebar">
+    14	            <div class="sidebar-header">
+    15	                <img src="images/logo.png" alt="화정동로데오부동산" class="sidebar-logo">
+    16	            </div>
+    17	            
+    18	            <nav class="sidebar-nav">
+    19	                <a href="index.html" class="nav-item">
+    20	                    <i class="fas fa-home nav-icon"></i>
+    21	                    <span>대시보드</span>
+    22	                </a>
+    23	                <a href="rental.html" class="nav-item">
+    24	                    <i class="fas fa-building nav-icon"></i>
+    25	                    <span>임대 물건</span>
+    26	                </a>
+    27	                <a href="sale.html" class="nav-item">
+    28	                    <i class="fas fa-store nav-icon"></i>
+    29	                    <span>매매 물건</span>
+    30	                </a>
+    31	                <a href="customers.html" class="nav-item">
+    32	                    <i class="fas fa-users nav-icon"></i>
+    33	                    <span>손님(내방) 관리</span>
+    34	                </a>
+    35	                <a href="settings.html" class="nav-item active">
+    36	                    <i class="fas fa-cog nav-icon"></i>
+    37	                    <span>설정</span>
+    38	                </a>
+    39	            </nav>
+    40	            
+    41	            <div class="sidebar-footer">
+    42	                <div class="user-info">
+    43	                    <div class="user-avatar"><span id="userInitial">U</span></div>
+    44	                    <div>
+    45	                        <div class="user-name" style="font-weight: 600;">사용자</div>
+    46	                        <div class="user-role" style="font-size: 12px; color: var(--text-secondary);">직원</div>
+    47	                    </div>
+    48	                </div>
+    49	                <button class="logout-btn">로그아웃</button>
+    50	            </div>
+    51	        </aside>
+    52	        
+    53	        <!-- 메인 컨텐츠 -->
+    54	        <main class="main-content">
+    55	            <div class="topbar">
+    56	                <button class="mobile-menu-btn">
+    57	                    <i class="fas fa-bars"></i>
+    58	                </button>
+    59	                <h1 class="page-title">설정</h1>
+    60	            </div>
+    61	            
+    62	            <div class="content-area">
+    63	                <!-- 직원 관리 -->
+    64	                <div class="card">
+    65	                    <h2 class="card-title">
+    66	                        <i class="fas fa-user-cog" style="margin-right: 8px; color: var(--naver-green);"></i>
+    67	                        직원 관리
+    68	                    </h2>
+    69	                    
+    70	                    <button class="btn btn-primary btn-sm" onclick="openAddStaffModal()" style="margin-bottom: 16px;">
+    71	                        <i class="fas fa-user-plus"></i> 직원 추가
+    72	                    </button>
+    73	                    
+    74	                    <div class="table-container">
+    75	                        <table>
+    76	                            <thead>
+    77	                                <tr>
+    78	                                    <th>이름</th>
+    79	                                    <th>이메일</th>
+    80	                                    <th>연락처</th>
+    81	                                    <th>권한</th>
+    82	                                    <th>상태</th>
+    83	                                    <th>마지막 로그인</th>
+    84	                                    <th>관리</th>
+    85	                                </tr>
+    86	                            </thead>
+    87	                            <tbody id="staffTableBody">
+    88	                                <tr>
+    89	                                    <td colspan="7" style="text-align: center; padding: 20px;">
+    90	                                        <div class="spinner"></div>
+    91	                                    </td>
+    92	                                </tr>
+    93	                            </tbody>
+    94	                        </table>
+    95	                    </div>
+    96	                </div>
+    97	                
+    98	                <!-- 알림 설정 -->
+    99	                <div class="card">
+   100	                    <h2 class="card-title">
+   101	                        <i class="fas fa-bell" style="margin-right: 8px; color: var(--naver-green);"></i>
+   102	                        알림 설정
+   103	                    </h2>
+   104	                    
+   105	                    <div class="alert alert-warning">
+   106	                        <i class="fas fa-info-circle"></i> 
+   107	                        현재는 웹 푸시 및 이메일 알림 기능이 준비되어 있으며, 문자 알림은 2차 업데이트에서 추가될 예정입니다.
+   108	                    </div>
+   109	                    
+   110	                    <div style="margin-top: 20px;">
+   111	                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 12px;">
+   112	                            <div>
+   113	                                <div style="font-weight: 600; margin-bottom: 4px;">웹 푸시 알림</div>
+   114	                                <div style="font-size: 13px; color: var(--text-secondary);">브라우저 알림을 통해 실시간 업데이트를 받습니다</div>
+   115	                            </div>
+   116	                            <label style="position: relative; display: inline-block; width: 50px; height: 24px;">
+   117	                                <input type="checkbox" id="pushNotification" style="opacity: 0; width: 0; height: 0;">
+   118	                                <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px;"></span>
+   119	                            </label>
+   120	                        </div>
+   121	                        
+   122	                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 12px;">
+   123	                            <div>
+   124	                                <div style="font-weight: 600; margin-bottom: 4px;">이메일 알림</div>
+   125	                                <div style="font-size: 13px; color: var(--text-secondary);">중요한 업데이트를 이메일로 받습니다</div>
+   126	                            </div>
+   127	                            <label style="position: relative; display: inline-block; width: 50px; height: 24px;">
+   128	                                <input type="checkbox" id="emailNotification" style="opacity: 0; width: 0; height: 0;">
+   129	                                <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px;"></span>
+   130	                            </label>
+   131	                        </div>
+   132	                        
+   133	                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 12px;">
+   134	                            <div>
+   135	                                <div style="font-weight: 600; margin-bottom: 4px;">문자(SMS) 알림 <span class="badge badge-warning">준비중</span></div>
+   136	                                <div style="font-size: 13px; color: var(--text-secondary);">휴대폰 문자로 알림을 받습니다 (2차 업데이트 예정)</div>
+   137	                            </div>
+   138	                            <label style="position: relative; display: inline-block; width: 50px; height: 24px;">
+   139	                                <input type="checkbox" id="smsNotification" disabled style="opacity: 0; width: 0; height: 0;">
+   140	                                <span style="position: absolute; cursor: not-allowed; top: 0; left: 0; right: 0; bottom: 0; background-color: #E0E0E0; transition: .4s; border-radius: 24px;"></span>
+   141	                            </label>
+   142	                        </div>
+   143	                    </div>
+   144	                </div>
+   145	                
+   146	                <!-- 시스템 정보 -->
+   147	                <div class="card">
+   148	                    <h2 class="card-title">
+   149	                        <i class="fas fa-info-circle" style="margin-right: 8px; color: var(--naver-green);"></i>
+   150	                        시스템 정보
+   151	                    </h2>
+   152	                    
+   153	                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+   154	                        <div style="padding: 16px; background: var(--naver-green-light); border-radius: 8px;">
+   155	                            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">버전</div>
+   156	                            <div style="font-size: 18px; font-weight: 700;">v1.0.0</div>
+   157	                        </div>
+   158	                        <div style="padding: 16px; background: var(--naver-green-light); border-radius: 8px;">
+   159	                            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">등록 직원</div>
+   160	                            <div style="font-size: 18px; font-weight: 700;" id="totalStaff">-</div>
+   161	                        </div>
+   162	                        <div style="padding: 16px; background: var(--naver-green-light); border-radius: 8px;">
+   163	                            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">임대 물건</div>
+   164	                            <div style="font-size: 18px; font-weight: 700;" id="totalRental">-</div>
+   165	                        </div>
+   166	                        <div style="padding: 16px; background: var(--naver-green-light); border-radius: 8px;">
+   167	                            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">매매 물건</div>
+   168	                            <div style="font-size: 18px; font-weight: 700;" id="totalSale">-</div>
+   169	                        </div>
+   170	                    </div>
+   171	                </div>
+   172	            </div>
+   173	        </main>
+   174	    </div>
+   175	
+   176	    <!-- 직원 추가/수정 모달 -->
+   177	    <div id="staffModal" class="modal">
+   178	        <div class="modal-content">
+   179	            <div class="modal-header">
+   180	                <h2 class="modal-title" id="modalTitle">직원 추가</h2>
+   181	                <button class="modal-close" onclick="closeStaffModal()">&times;</button>
+   182	            </div>
+   183	            <div class="modal-body">
+   184	                <form id="staffForm">
+   185	                    <input type="hidden" id="staffId">
+   186	                    
+   187	                    <div class="form-group">
+   188	                        <label class="form-label" for="staffName">이름 *</label>
+   189	                        <input type="text" id="staffName" class="form-input" required>
+   190	                    </div>
+   191	                    
+   192	                    <div class="form-group">
+   193	                        <label class="form-label" for="staffEmail">이메일 *</label>
+   194	                        <input type="email" id="staffEmail" class="form-input" required>
+   195	                    </div>
+   196	                    
+   197	                    <div class="form-group">
+   198	                        <label class="form-label" for="staffPhone">연락처 *</label>
+   199	                        <input type="tel" id="staffPhone" class="form-input" required placeholder="010-0000-0000">
+   200	                    </div>
+   201	                    
+   202	                    <div class="form-group">
+   203	                        <label class="form-label" for="staffRole">권한 *</label>
+   204	                        <select id="staffRole" class="form-input" required>
+   205	                            <option value="staff">일반 직원</option>
+   206	                            <option value="admin">관리자</option>
+   207	                        </select>
+   208	                    </div>
+   209	                    
+   210	                    <div class="form-group">
+   211	                        <label class="form-label" for="staffPassword">비밀번호 *</label>
+   212	                        <input type="password" id="staffPassword" class="form-input" placeholder="최소 8자 이상">
+   213	                        <small style="color: var(--text-secondary);">* 수정 시 입력하지 않으면 기존 비밀번호가 유지됩니다</small>
+   214	                    </div>
+   215	                    
+   216	                    <div class="form-group">
+   217	                        <label style="display: flex; align-items: center; cursor: pointer;">
+   218	                            <input type="checkbox" id="staffActive" style="margin-right: 8px;">
+   219	                            <span>활성화 상태</span>
+   220	                        </label>
+   221	                    </div>
+   222	                </form>
+   223	            </div>
+   224	            <div class="modal-footer">
+   225	                <button type="button" class="btn btn-secondary" onclick="closeStaffModal()">취소</button>
+   226	                <button type="button" class="btn btn-primary" onclick="saveStaff()">저장</button>
+   227	            </div>
+   228	        </div>
+   229	    </div>
+   230	
+   231	    <script src="js/common.js"></script>
+   232	    <script src="js/settings.js"></script>
+   233	</body>
+   234	</html>
+   235	

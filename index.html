@@ -1,0 +1,302 @@
+1	<!DOCTYPE html>
+     2	<html lang="ko">
+     3	<head>
+     4	    <meta charset="UTF-8">
+     5	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     6	    <title>대시보드 - 화정동로데오부동산</title>
+     7	    <link rel="stylesheet" href="css/common.css">
+     8	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+     9	    <style>
+    10	        .stats-grid {
+    11	            display: grid;
+    12	            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    13	            gap: 20px;
+    14	            margin-bottom: 32px;
+    15	        }
+    16	        
+    17	        .stat-card {
+    18	            background: linear-gradient(135deg, var(--naver-green) 0%, var(--naver-green-dark) 100%);
+    19	            color: white;
+    20	            padding: 24px;
+    21	            border-radius: 12px;
+    22	            box-shadow: var(--shadow-md);
+    23	        }
+    24	        
+    25	        .stat-card.secondary {
+    26	            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    27	        }
+    28	        
+    29	        .stat-card.tertiary {
+    30	            background: linear-gradient(135deg, #FF9500 0%, #E68500 100%);
+    31	        }
+    32	        
+    33	        .stat-card.quaternary {
+    34	            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+    35	        }
+    36	        
+    37	        .stat-label {
+    38	            font-size: 14px;
+    39	            opacity: 0.9;
+    40	            margin-bottom: 8px;
+    41	        }
+    42	        
+    43	        .stat-value {
+    44	            font-size: 32px;
+    45	            font-weight: 700;
+    46	        }
+    47	        
+    48	        .stat-icon {
+    49	            float: right;
+    50	            font-size: 40px;
+    51	            opacity: 0.3;
+    52	        }
+    53	        
+    54	        .recent-list {
+    55	            list-style: none;
+    56	        }
+    57	        
+    58	        .recent-item {
+    59	            padding: 12px 0;
+    60	            border-bottom: 1px solid var(--border-color);
+    61	            display: flex;
+    62	            justify-content: space-between;
+    63	            align-items: center;
+    64	        }
+    65	        
+    66	        .recent-item:last-child {
+    67	            border-bottom: none;
+    68	        }
+    69	        
+    70	        .recent-info {
+    71	            flex: 1;
+    72	        }
+    73	        
+    74	        .recent-title {
+    75	            font-weight: 600;
+    76	            margin-bottom: 4px;
+    77	        }
+    78	        
+    79	        .recent-meta {
+    80	            font-size: 13px;
+    81	            color: var(--text-secondary);
+    82	        }
+    83	    </style>
+    84	</head>
+    85	<body>
+    86	    <div class="app-container">
+    87	        <!-- 사이드바 -->
+    88	        <aside class="sidebar">
+    89	            <div class="sidebar-header">
+    90	                <img src="images/logo.png" alt="화정동로데오부동산" class="sidebar-logo">
+    91	            </div>
+    92	            
+    93	            <nav class="sidebar-nav">
+    94	                <a href="index.html" class="nav-item active">
+    95	                    <i class="fas fa-home nav-icon"></i>
+    96	                    <span>대시보드</span>
+    97	                </a>
+    98	                <a href="rental.html" class="nav-item">
+    99	                    <i class="fas fa-building nav-icon"></i>
+   100	                    <span>임대 물건</span>
+   101	                </a>
+   102	                <a href="sale.html" class="nav-item">
+   103	                    <i class="fas fa-store nav-icon"></i>
+   104	                    <span>매매 물건</span>
+   105	                </a>
+   106	                <a href="customers.html" class="nav-item">
+   107	                    <i class="fas fa-users nav-icon"></i>
+   108	                    <span>손님(내방) 관리</span>
+   109	                </a>
+   110	                <a href="settings.html" class="nav-item" id="settingsNav" style="display: none;">
+   111	                    <i class="fas fa-cog nav-icon"></i>
+   112	                    <span>설정</span>
+   113	                </a>
+   114	            </nav>
+   115	            
+   116	            <div class="sidebar-footer">
+   117	                <div class="user-info">
+   118	                    <div class="user-avatar"><span id="userInitial">U</span></div>
+   119	                    <div>
+   120	                        <div class="user-name" style="font-weight: 600;">사용자</div>
+   121	                        <div class="user-role" style="font-size: 12px; color: var(--text-secondary);">직원</div>
+   122	                    </div>
+   123	                </div>
+   124	                <button class="logout-btn">로그아웃</button>
+   125	            </div>
+   126	        </aside>
+   127	        
+   128	        <!-- 메인 컨텐츠 -->
+   129	        <main class="main-content">
+   130	            <div class="topbar">
+   131	                <button class="mobile-menu-btn">
+   132	                    <i class="fas fa-bars"></i>
+   133	                </button>
+   134	                <h1 class="page-title">대시보드</h1>
+   135	                <div class="topbar-actions">
+   136	                    <span id="currentDate" style="color: var(--text-secondary);"></span>
+   137	                </div>
+   138	            </div>
+   139	            
+   140	            <div class="content-area">
+   141	                <!-- 통계 카드 -->
+   142	                <div class="stats-grid">
+   143	                    <div class="stat-card">
+   144	                        <i class="fas fa-building stat-icon"></i>
+   145	                        <div class="stat-label">임대 물건</div>
+   146	                        <div class="stat-value" id="rentalCount">0</div>
+   147	                    </div>
+   148	                    <div class="stat-card secondary">
+   149	                        <i class="fas fa-store stat-icon"></i>
+   150	                        <div class="stat-label">매매 물건</div>
+   151	                        <div class="stat-value" id="saleCount">0</div>
+   152	                    </div>
+   153	                    <div class="stat-card tertiary">
+   154	                        <i class="fas fa-users stat-icon"></i>
+   155	                        <div class="stat-label">손님(내방)</div>
+   156	                        <div class="stat-value" id="customerCount">0</div>
+   157	                    </div>
+   158	                    <div class="stat-card quaternary">
+   159	                        <i class="fas fa-calendar-check stat-icon"></i>
+   160	                        <div class="stat-label">오늘 접수</div>
+   161	                        <div class="stat-value" id="todayCount">0</div>
+   162	                    </div>
+   163	                </div>
+   164	                
+   165	                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+   166	                    <!-- 최근 임대 물건 -->
+   167	                    <div class="card">
+   168	                        <h2 class="card-title">최근 임대 물건</h2>
+   169	                        <ul class="recent-list" id="recentRentals">
+   170	                            <li class="empty-state">
+   171	                                <div class="empty-state-icon">📦</div>
+   172	                                <div class="empty-state-text">등록된 임대 물건이 없습니다</div>
+   173	                            </li>
+   174	                        </ul>
+   175	                        <a href="rental.html" class="btn btn-secondary" style="width: 100%; margin-top: 16px;">
+   176	                            전체 보기
+   177	                        </a>
+   178	                    </div>
+   179	                    
+   180	                    <!-- 최근 매매 물건 -->
+   181	                    <div class="card">
+   182	                        <h2 class="card-title">최근 매매 물건</h2>
+   183	                        <ul class="recent-list" id="recentSales">
+   184	                            <li class="empty-state">
+   185	                                <div class="empty-state-icon">🏪</div>
+   186	                                <div class="empty-state-text">등록된 매매 물건이 없습니다</div>
+   187	                            </li>
+   188	                        </ul>
+   189	                        <a href="sale.html" class="btn btn-secondary" style="width: 100%; margin-top: 16px;">
+   190	                            전체 보기
+   191	                        </a>
+   192	                    </div>
+   193	                    
+   194	                    <!-- 최근 손님 -->
+   195	                    <div class="card">
+   196	                        <h2 class="card-title">최근 손님(내방)</h2>
+   197	                        <ul class="recent-list" id="recentCustomers">
+   198	                            <li class="empty-state">
+   199	                                <div class="empty-state-icon">👥</div>
+   200	                                <div class="empty-state-text">등록된 손님이 없습니다</div>
+   201	                            </li>
+   202	                        </ul>
+   203	                        <a href="customers.html" class="btn btn-secondary" style="width: 100%; margin-top: 16px;">
+   204	                            전체 보기
+   205	                        </a>
+   206	                    </div>
+   207	                </div>
+   208	            </div>
+   209	        </main>
+   210	    </div>
+   211	
+   212	    <script src="js/common.js"></script>
+   213	    <script>
+   214	        // 인증 확인
+   215	        Auth.requireAuth();
+   216	        
+   217	        // 관리자인 경우 설정 메뉴 표시
+   218	        if (Auth.isAdmin()) {
+   219	            document.getElementById('settingsNav').style.display = 'flex';
+   220	        }
+   221	        
+   222	        // 현재 날짜 표시
+   223	        document.getElementById('currentDate').textContent = formatDate(new Date());
+   224	        
+   225	        // 사용자 정보 표시
+   226	        const user = Auth.getCurrentUser();
+   227	        if (user) {
+   228	            document.getElementById('userInitial').textContent = user.name.charAt(0);
+   229	        }
+   230	        
+   231	        // 데이터 로드
+   232	        async function loadDashboard() {
+   233	            try {
+   234	                // 임대 물건
+   235	                const rentals = await API.get('rental_properties', { limit: 5, sort: '-created_at' });
+   236	                document.getElementById('rentalCount').textContent = rentals.total || 0;
+   237	                
+   238	                if (rentals.data && rentals.data.length > 0) {
+   239	                    const recentList = document.getElementById('recentRentals');
+   240	                    recentList.innerHTML = rentals.data.slice(0, 5).map(item => `
+   241	                        <li class="recent-item">
+   242	                            <div class="recent-info">
+   243	                                <div class="recent-title">${item.store_name || '상호 미정'}</div>
+   244	                                <div class="recent-meta">${item.building_name} · ${item.business_type || ''}</div>
+   245	                            </div>
+   246	                            ${getStatusBadge(item.status || '접수')}
+   247	                        </li>
+   248	                    `).join('');
+   249	                }
+   250	                
+   251	                // 매매 물건
+   252	                const sales = await API.get('sale_properties', { limit: 5, sort: '-created_at' });
+   253	                document.getElementById('saleCount').textContent = sales.total || 0;
+   254	                
+   255	                if (sales.data && sales.data.length > 0) {
+   256	                    const recentList = document.getElementById('recentSales');
+   257	                    recentList.innerHTML = sales.data.slice(0, 5).map(item => `
+   258	                        <li class="recent-item">
+   259	                            <div class="recent-info">
+   260	                                <div class="recent-title">${item.current_store || item.address}</div>
+   261	                                <div class="recent-meta">${item.building_name} · ${formatCurrency(item.sale_price || 0)}</div>
+   262	                            </div>
+   263	                            ${getStatusBadge(item.status || '접수')}
+   264	                        </li>
+   265	                    `).join('');
+   266	                }
+   267	                
+   268	                // 손님(내방)
+   269	                const customers = await API.get('customers', { limit: 5, sort: '-created_at' });
+   270	                document.getElementById('customerCount').textContent = customers.total || 0;
+   271	                
+   272	                if (customers.data && customers.data.length > 0) {
+   273	                    const recentList = document.getElementById('recentCustomers');
+   274	                    recentList.innerHTML = customers.data.slice(0, 5).map(item => `
+   275	                        <li class="recent-item">
+   276	                            <div class="recent-info">
+   277	                                <div class="recent-title">${item.looking_for}</div>
+   278	                                <div class="recent-meta">${formatDate(item.visit_date)} · ${item.contact || ''}</div>
+   279	                            </div>
+   280	                            ${getStatusBadge(item.status || '대기')}
+   281	                        </li>
+   282	                    `).join('');
+   283	                }
+   284	                
+   285	                // 오늘 접수 건수
+   286	                const today = new Date().toISOString().split('T')[0];
+   287	                const todayRentals = rentals.data?.filter(r => r.received_date?.startsWith(today)).length || 0;
+   288	                const todaySales = sales.data?.filter(s => s.received_date?.startsWith(today)).length || 0;
+   289	                const todayCustomers = customers.data?.filter(c => c.visit_date?.startsWith(today)).length || 0;
+   290	                document.getElementById('todayCount').textContent = todayRentals + todaySales + todayCustomers;
+   291	                
+   292	            } catch (error) {
+   293	                console.error('Dashboard load error:', error);
+   294	                Toast.error('데이터를 불러오는 중 오류가 발생했습니다.');
+   295	            }
+   296	        }
+   297	        
+   298	        loadDashboard();
+   299	    </script>
+   300	</body>
+   301	</html>
+   302	

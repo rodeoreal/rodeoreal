@@ -1,0 +1,563 @@
+ 1	/* 화정동로데오부동산 공통 스타일 */
+     2	:root {
+     3	    --naver-green: #03C75A;
+     4	    --naver-green-dark: #02A04A;
+     5	    --naver-green-light: #E8F9F0;
+     6	    --text-primary: #1A1A1A;
+     7	    --text-secondary: #666666;
+     8	    --text-light: #999999;
+     9	    --bg-primary: #FFFFFF;
+    10	    --bg-secondary: #F8F9FA;
+    11	    --border-color: #E0E0E0;
+    12	    --error-color: #FF3B30;
+    13	    --warning-color: #FF9500;
+    14	    --success-color: #34C759;
+    15	    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    16	    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    17	    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+    18	}
+    19	
+    20	* {
+    21	    margin: 0;
+    22	    padding: 0;
+    23	    box-sizing: border-box;
+    24	}
+    25	
+    26	body {
+    27	    font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    28	    background-color: var(--bg-secondary);
+    29	    color: var(--text-primary);
+    30	    line-height: 1.6;
+    31	}
+    32	
+    33	/* 로그인 페이지 스타일 */
+    34	.login-container {
+    35	    display: flex;
+    36	    justify-content: center;
+    37	    align-items: center;
+    38	    min-height: 100vh;
+    39	    padding: 20px;
+    40	    background: linear-gradient(135deg, var(--naver-green-light) 0%, #FFFFFF 100%);
+    41	}
+    42	
+    43	.login-box {
+    44	    background: var(--bg-primary);
+    45	    border-radius: 16px;
+    46	    box-shadow: var(--shadow-lg);
+    47	    padding: 48px 40px;
+    48	    width: 100%;
+    49	    max-width: 420px;
+    50	}
+    51	
+    52	.login-logo {
+    53	    text-align: center;
+    54	    margin-bottom: 32px;
+    55	}
+    56	
+    57	.login-logo img {
+    58	    max-width: 200px;
+    59	    height: auto;
+    60	}
+    61	
+    62	.login-title {
+    63	    text-align: center;
+    64	    font-size: 24px;
+    65	    font-weight: 700;
+    66	    color: var(--text-primary);
+    67	    margin-bottom: 32px;
+    68	}
+    69	
+    70	.form-group {
+    71	    margin-bottom: 20px;
+    72	}
+    73	
+    74	.form-label {
+    75	    display: block;
+    76	    font-size: 14px;
+    77	    font-weight: 600;
+    78	    color: var(--text-primary);
+    79	    margin-bottom: 8px;
+    80	}
+    81	
+    82	.form-input {
+    83	    width: 100%;
+    84	    padding: 12px 16px;
+    85	    border: 1px solid var(--border-color);
+    86	    border-radius: 8px;
+    87	    font-size: 15px;
+    88	    transition: all 0.2s;
+    89	}
+    90	
+    91	.form-input:focus {
+    92	    outline: none;
+    93	    border-color: var(--naver-green);
+    94	    box-shadow: 0 0 0 3px var(--naver-green-light);
+    95	}
+    96	
+    97	.btn {
+    98	    display: inline-flex;
+    99	    align-items: center;
+   100	    justify-content: center;
+   101	    padding: 12px 24px;
+   102	    border: none;
+   103	    border-radius: 8px;
+   104	    font-size: 15px;
+   105	    font-weight: 600;
+   106	    cursor: pointer;
+   107	    transition: all 0.2s;
+   108	    text-decoration: none;
+   109	}
+   110	
+   111	.btn-primary {
+   112	    width: 100%;
+   113	    background-color: var(--naver-green);
+   114	    color: white;
+   115	    padding: 14px;
+   116	    font-size: 16px;
+   117	}
+   118	
+   119	.btn-primary:hover {
+   120	    background-color: var(--naver-green-dark);
+   121	}
+   122	
+   123	.btn-primary:active {
+   124	    transform: scale(0.98);
+   125	}
+   126	
+   127	.btn-secondary {
+   128	    background-color: var(--bg-secondary);
+   129	    color: var(--text-primary);
+   130	}
+   131	
+   132	.btn-secondary:hover {
+   133	    background-color: var(--border-color);
+   134	}
+   135	
+   136	.btn-sm {
+   137	    padding: 8px 16px;
+   138	    font-size: 14px;
+   139	}
+   140	
+   141	/* 메인 레이아웃 */
+   142	.app-container {
+   143	    display: flex;
+   144	    height: 100vh;
+   145	    overflow: hidden;
+   146	}
+   147	
+   148	/* 사이드바 */
+   149	.sidebar {
+   150	    width: 260px;
+   151	    background-color: var(--bg-primary);
+   152	    border-right: 1px solid var(--border-color);
+   153	    display: flex;
+   154	    flex-direction: column;
+   155	    transition: transform 0.3s;
+   156	}
+   157	
+   158	.sidebar-header {
+   159	    padding: 24px 20px;
+   160	    border-bottom: 1px solid var(--border-color);
+   161	}
+   162	
+   163	.sidebar-logo {
+   164	    max-width: 160px;
+   165	    height: auto;
+   166	}
+   167	
+   168	.sidebar-nav {
+   169	    flex: 1;
+   170	    overflow-y: auto;
+   171	    padding: 16px 0;
+   172	}
+   173	
+   174	.nav-item {
+   175	    display: flex;
+   176	    align-items: center;
+   177	    padding: 12px 20px;
+   178	    color: var(--text-primary);
+   179	    text-decoration: none;
+   180	    transition: all 0.2s;
+   181	    cursor: pointer;
+   182	}
+   183	
+   184	.nav-item:hover {
+   185	    background-color: var(--naver-green-light);
+   186	}
+   187	
+   188	.nav-item.active {
+   189	    background-color: var(--naver-green-light);
+   190	    color: var(--naver-green);
+   191	    font-weight: 600;
+   192	    border-right: 3px solid var(--naver-green);
+   193	}
+   194	
+   195	.nav-icon {
+   196	    margin-right: 12px;
+   197	    font-size: 18px;
+   198	}
+   199	
+   200	.sidebar-footer {
+   201	    padding: 16px 20px;
+   202	    border-top: 1px solid var(--border-color);
+   203	}
+   204	
+   205	.user-info {
+   206	    display: flex;
+   207	    align-items: center;
+   208	    margin-bottom: 12px;
+   209	    font-size: 14px;
+   210	}
+   211	
+   212	.user-avatar {
+   213	    width: 32px;
+   214	    height: 32px;
+   215	    border-radius: 50%;
+   216	    background-color: var(--naver-green);
+   217	    color: white;
+   218	    display: flex;
+   219	    align-items: center;
+   220	    justify-content: center;
+   221	    margin-right: 10px;
+   222	    font-weight: 600;
+   223	}
+   224	
+   225	.logout-btn {
+   226	    width: 100%;
+   227	    padding: 8px;
+   228	    background-color: var(--bg-secondary);
+   229	    border: none;
+   230	    border-radius: 6px;
+   231	    cursor: pointer;
+   232	    font-size: 14px;
+   233	}
+   234	
+   235	.logout-btn:hover {
+   236	    background-color: var(--border-color);
+   237	}
+   238	
+   239	/* 메인 컨텐츠 */
+   240	.main-content {
+   241	    flex: 1;
+   242	    display: flex;
+   243	    flex-direction: column;
+   244	    overflow: hidden;
+   245	}
+   246	
+   247	.topbar {
+   248	    height: 64px;
+   249	    background-color: var(--bg-primary);
+   250	    border-bottom: 1px solid var(--border-color);
+   251	    display: flex;
+   252	    align-items: center;
+   253	    justify-content: space-between;
+   254	    padding: 0 24px;
+   255	}
+   256	
+   257	.page-title {
+   258	    font-size: 20px;
+   259	    font-weight: 700;
+   260	    color: var(--text-primary);
+   261	}
+   262	
+   263	.topbar-actions {
+   264	    display: flex;
+   265	    gap: 12px;
+   266	}
+   267	
+   268	.content-area {
+   269	    flex: 1;
+   270	    overflow-y: auto;
+   271	    padding: 24px;
+   272	}
+   273	
+   274	/* 카드 */
+   275	.card {
+   276	    background-color: var(--bg-primary);
+   277	    border-radius: 12px;
+   278	    box-shadow: var(--shadow-sm);
+   279	    padding: 24px;
+   280	    margin-bottom: 24px;
+   281	}
+   282	
+   283	.card-title {
+   284	    font-size: 18px;
+   285	    font-weight: 700;
+   286	    margin-bottom: 16px;
+   287	    color: var(--text-primary);
+   288	}
+   289	
+   290	/* 테이블 */
+   291	.table-container {
+   292	    overflow-x: auto;
+   293	}
+   294	
+   295	table {
+   296	    width: 100%;
+   297	    border-collapse: collapse;
+   298	    background-color: var(--bg-primary);
+   299	}
+   300	
+   301	thead {
+   302	    background-color: var(--bg-secondary);
+   303	}
+   304	
+   305	th, td {
+   306	    padding: 12px 16px;
+   307	    text-align: left;
+   308	    border-bottom: 1px solid var(--border-color);
+   309	}
+   310	
+   311	th {
+   312	    font-weight: 600;
+   313	    color: var(--text-secondary);
+   314	    font-size: 14px;
+   315	}
+   316	
+   317	td {
+   318	    color: var(--text-primary);
+   319	    font-size: 15px;
+   320	}
+   321	
+   322	tr:hover {
+   323	    background-color: var(--naver-green-light);
+   324	}
+   325	
+   326	/* 상태 배지 */
+   327	.badge {
+   328	    display: inline-block;
+   329	    padding: 4px 12px;
+   330	    border-radius: 12px;
+   331	    font-size: 13px;
+   332	    font-weight: 600;
+   333	}
+   334	
+   335	.badge-success {
+   336	    background-color: #D1F4E0;
+   337	    color: #00A854;
+   338	}
+   339	
+   340	.badge-warning {
+   341	    background-color: #FFF3E0;
+   342	    color: #FF9500;
+   343	}
+   344	
+   345	.badge-info {
+   346	    background-color: #E3F2FD;
+   347	    color: #2196F3;
+   348	}
+   349	
+   350	.badge-error {
+   351	    background-color: #FFEBEE;
+   352	    color: #F44336;
+   353	}
+   354	
+   355	/* 모달 */
+   356	.modal {
+   357	    display: none;
+   358	    position: fixed;
+   359	    top: 0;
+   360	    left: 0;
+   361	    right: 0;
+   362	    bottom: 0;
+   363	    background-color: rgba(0, 0, 0, 0.5);
+   364	    z-index: 1000;
+   365	    align-items: center;
+   366	    justify-content: center;
+   367	    padding: 20px;
+   368	}
+   369	
+   370	.modal.active {
+   371	    display: flex;
+   372	}
+   373	
+   374	.modal-content {
+   375	    background-color: var(--bg-primary);
+   376	    border-radius: 12px;
+   377	    box-shadow: var(--shadow-lg);
+   378	    width: 100%;
+   379	    max-width: 600px;
+   380	    max-height: 90vh;
+   381	    overflow-y: auto;
+   382	}
+   383	
+   384	.modal-header {
+   385	    padding: 20px 24px;
+   386	    border-bottom: 1px solid var(--border-color);
+   387	    display: flex;
+   388	    justify-content: space-between;
+   389	    align-items: center;
+   390	}
+   391	
+   392	.modal-title {
+   393	    font-size: 18px;
+   394	    font-weight: 700;
+   395	}
+   396	
+   397	.modal-close {
+   398	    background: none;
+   399	    border: none;
+   400	    font-size: 24px;
+   401	    cursor: pointer;
+   402	    color: var(--text-secondary);
+   403	}
+   404	
+   405	.modal-body {
+   406	    padding: 24px;
+   407	}
+   408	
+   409	.modal-footer {
+   410	    padding: 16px 24px;
+   411	    border-top: 1px solid var(--border-color);
+   412	    display: flex;
+   413	    justify-content: flex-end;
+   414	    gap: 12px;
+   415	}
+   416	
+   417	/* 검색 및 필터 */
+   418	.search-filters {
+   419	    display: flex;
+   420	    gap: 12px;
+   421	    margin-bottom: 20px;
+   422	    flex-wrap: wrap;
+   423	}
+   424	
+   425	.search-input {
+   426	    flex: 1;
+   427	    min-width: 250px;
+   428	    padding: 10px 16px;
+   429	    border: 1px solid var(--border-color);
+   430	    border-radius: 8px;
+   431	    font-size: 15px;
+   432	}
+   433	
+   434	.filter-select {
+   435	    padding: 10px 16px;
+   436	    border: 1px solid var(--border-color);
+   437	    border-radius: 8px;
+   438	    font-size: 15px;
+   439	    background-color: var(--bg-primary);
+   440	    cursor: pointer;
+   441	}
+   442	
+   443	/* 모바일 대응 */
+   444	.mobile-menu-btn {
+   445	    display: none;
+   446	    background: none;
+   447	    border: none;
+   448	    font-size: 24px;
+   449	    cursor: pointer;
+   450	    padding: 8px;
+   451	}
+   452	
+   453	@media (max-width: 768px) {
+   454	    .sidebar {
+   455	        position: fixed;
+   456	        top: 0;
+   457	        left: 0;
+   458	        height: 100vh;
+   459	        z-index: 999;
+   460	        transform: translateX(-100%);
+   461	    }
+   462	
+   463	    .sidebar.active {
+   464	        transform: translateX(0);
+   465	    }
+   466	
+   467	    .mobile-menu-btn {
+   468	        display: block;
+   469	    }
+   470	
+   471	    .topbar {
+   472	        padding: 0 16px;
+   473	    }
+   474	
+   475	    .content-area {
+   476	        padding: 16px;
+   477	    }
+   478	
+   479	    .card {
+   480	        padding: 16px;
+   481	    }
+   482	
+   483	    .search-filters {
+   484	        flex-direction: column;
+   485	    }
+   486	
+   487	    .search-input {
+   488	        min-width: 100%;
+   489	    }
+   490	
+   491	    .table-container {
+   492	        overflow-x: scroll;
+   493	    }
+   494	
+   495	    table {
+   496	        font-size: 14px;
+   497	    }
+   498	
+   499	    th, td {
+   500	        padding: 8px 12px;
+   501	    }
+   502	}
+   503	
+   504	/* 로딩 스피너 */
+   505	.spinner {
+   506	    border: 3px solid var(--border-color);
+   507	    border-top: 3px solid var(--naver-green);
+   508	    border-radius: 50%;
+   509	    width: 40px;
+   510	    height: 40px;
+   511	    animation: spin 1s linear infinite;
+   512	    margin: 20px auto;
+   513	}
+   514	
+   515	@keyframes spin {
+   516	    0% { transform: rotate(0deg); }
+   517	    100% { transform: rotate(360deg); }
+   518	}
+   519	
+   520	/* 알림 메시지 */
+   521	.alert {
+   522	    padding: 12px 16px;
+   523	    border-radius: 8px;
+   524	    margin-bottom: 16px;
+   525	    font-size: 14px;
+   526	}
+   527	
+   528	.alert-success {
+   529	    background-color: var(--naver-green-light);
+   530	    color: var(--naver-green-dark);
+   531	    border: 1px solid var(--naver-green);
+   532	}
+   533	
+   534	.alert-error {
+   535	    background-color: #FFEBEE;
+   536	    color: #C62828;
+   537	    border: 1px solid var(--error-color);
+   538	}
+   539	
+   540	.alert-warning {
+   541	    background-color: #FFF3E0;
+   542	    color: #E65100;
+   543	    border: 1px solid var(--warning-color);
+   544	}
+   545	
+   546	/* 빈 상태 */
+   547	.empty-state {
+   548	    text-align: center;
+   549	    padding: 60px 20px;
+   550	    color: var(--text-secondary);
+   551	}
+   552	
+   553	.empty-state-icon {
+   554	    font-size: 48px;
+   555	    margin-bottom: 16px;
+   556	    opacity: 0.5;
+   557	}
+   558	
+   559	.empty-state-text {
+   560	    font-size: 16px;
+   561	    margin-bottom: 24px;
+   562	}
+   563	
