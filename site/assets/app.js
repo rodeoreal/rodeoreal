@@ -50,40 +50,53 @@ function yesNo(v) {
 }
 
 function tagHtml(tags) {
-  return tags
-    .map((t) => `<span class="tag ${t === "급매" ? "urgent" : t === "무권리" ? "free" : ""}">${esc(t)}</span>`)
-    .join("");
+  return tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("");
 }
 
 function title(l) {
   return `${l.building} ${l.floor}층 ${l.propertyType}`;
 }
 
-function photoHtml(l, tags = true) {
-  const img = l.photos && l.photos.length
-    ? `<img src="${esc(l.photos[0])}" alt="${esc(title(l))} 사진" loading="lazy">`
-    : `${esc(l.building)} ${l.floor}층<br><small style="font-weight:400;color:var(--muted)">사진 준비 중</small>`;
-  return `<div class="card-photo${l.photos && l.photos.length ? "" : " no-photo"}" style="flex-direction:column;text-align:center">${img}${tags ? `<div class="card-tags">${tagHtml(l.tags)}</div>` : ""}</div>`;
+function photoHtml(l) {
+  if (l.photos && l.photos.length) {
+    return l.photos.map((p) => `<div class="photo has-img"><img src="${esc(p)}" alt="${esc(title(l))} 사진" loading="lazy"></div>`).join("");
+  }
+  return `<div class="photo">사진 준비 중입니다. 현장 사진은 상담 때 보여 드립니다.</div>`;
 }
 
-function cardHtml(l) {
-  const biz = l.business ? `현재 업종: ${esc(l.business)}` : l.vacant ? "현재 공실" : "";
+function priceText(l) {
+  return `${won(l.deposit)} / ${won(l.rent)}`;
+}
+
+// 매물 한 줄 (PC는 표, 휴대폰은 카드처럼 쌓임)
+function rowHtml(l) {
+  const href = `listing.html?id=${encodeURIComponent(l.id)}`;
+  const thumb = l.photos && l.photos.length ? `<img src="${esc(l.photos[0])}" alt="" loading="lazy">` : "";
+  const avail = l.available || "문의";
+  const desc = l.description || (l.business ? `현재 업종: ${l.business}` : l.vacant ? "현재 공실" : "");
   return `
-  <article class="card">
-    <a href="listing.html?id=${encodeURIComponent(l.id)}" aria-label="${esc(title(l))} 상세 보기">${photoHtml(l)}</a>
-    <div class="card-body">
-      <div class="card-meta">${esc(l.id)} · ${esc(l.dealType)} · ${esc(l.dong)}</div>
-      <h3 class="card-title"><a href="listing.html?id=${encodeURIComponent(l.id)}">${esc(title(l))}</a></h3>
-      <div class="price">보증금 ${won(l.deposit)} / 월세 ${won(l.rent)} <small>만원</small></div>
-      <div class="card-spec">권리금 ${premiumText(l.premium)}${l.premium ? "만원" : ""} · 전용 ${area(l.area)}</div>
-      <div class="card-spec">${biz}${biz && l.available ? " · " : ""}${l.available ? `입점 가능: ${esc(l.available)}` : ""}</div>
-      ${l.description ? `<p class="card-desc">${esc(l.description)}</p>` : ""}
-      <div class="card-actions">
-        <a class="btn btn-pink" href="tel:${OFFICE.mobile.replace(/-/g, "")}" data-track="call_mobile" data-id="${esc(l.id)}">전화 문의</a>
-        <a class="btn btn-kakao" href="${OFFICE.kakao}" target="_blank" rel="noopener" data-kakao="${esc(l.id)}">카카오 상담</a>
-      </div>
-    </div>
-  </article>`;
+  <a class="row" href="${href}" aria-label="${esc(l.id)} ${esc(title(l))} 자세히 보기">
+    <span class="c-top"><span class="c-id">${esc(l.id)}</span>${tagHtml(l.tags)}<span class="c-avail">입점 ${esc(avail)}</span></span>
+    <span class="c-main">
+      <span class="c-place">${thumb}${esc(l.building)} ${l.floor}층</span>
+      ${l.tags.length ? `<span class="c-tags">${tagHtml(l.tags)}</span>` : ""}
+      ${desc ? `<span class="c-desc">${esc(desc)}</span>` : ""}
+    </span>
+    <span class="c-price m">${l.area ? `${l.area}평 · ` : ""}보증금/월세 <b>${priceText(l)}</b> · 권리금 ${premiumText(l.premium)}</span>
+    <span class="c-cell">${area(l.area)}</span>
+    <span class="c-cell strong">${priceText(l)}</span>
+    <span class="c-cell">${premiumText(l.premium)}</span>
+    <span class="c-cell">${esc(avail)}</span>
+    <span class="c-go">자세히</span>
+  </a>`;
+}
+
+function ledgerHtml(list) {
+  return `<div class="ledger">
+    <div class="ledger-head" aria-hidden="true"><span>매물번호</span><span>위치 · 층</span><span>전용면적</span><span>보증금 / 월세</span><span>권리금</span><span>입점</span><span></span></div>
+    ${list.map(rowHtml).join("")}
+  </div>
+  <p class="ledger-foot">가격 단위 만원 · 호수와 상세 위치는 상담 때 안내합니다.</p>`;
 }
 
 let cache;
@@ -118,29 +131,38 @@ document.addEventListener("click", (e) => {
 
 function renderChrome() {
   const here = location.pathname.split("/").pop() || "index.html";
-  const navLinks = NAV.map(([href, label]) => `<a href="${href}"${href === here ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  const navLinks = NAV.filter(([href]) => href !== "index.html")
+    .map(([href, label]) => `<a href="${href}"${href === here ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  const tel = (n) => `tel:${n.replace(/-/g, "")}`;
   document.body.insertAdjacentHTML("afterbegin", `
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="index.html"><b>로데오부동산</b><small>화정동 상가·점포 임대 매매 · 양도양수</small></a>
-      <nav class="nav" aria-label="주 메뉴">${navLinks}</nav>
-      <a class="header-call" href="tel:${OFFICE.mobile.replace(/-/g, "")}">${OFFICE.mobile}</a>
+      <a class="brand" href="index.html"><img src="images/logo-mark.webp" alt="" width="48" height="48"><span><b>로데오부동산</b><small>화정동 상가 · 점포 전문 중개</small></span></a>
+      <nav class="nav" aria-label="주 메뉴">${navLinks}<a href="${OFFICE.requestForm}" target="_blank" rel="noopener">조건 남기기</a></nav>
+      <a class="header-call" href="${tel(OFFICE.mobile)}">${OFFICE.mobile}</a>
     </div>
     <nav class="subnav" aria-label="모바일 메뉴">${navLinks}</nav>
   </header>`);
   document.body.insertAdjacentHTML("beforeend", `
   <footer class="site-footer">
     <div class="wrap">
-      <p><b>${OFFICE.name}</b></p>
-      <p>대표 공인중개사 ${OFFICE.ceo} · 중개사무소 등록번호 ${OFFICE.regNo}</p>
-      <p>${OFFICE.address}</p>
-      <p>휴대폰 <a href="tel:${OFFICE.mobile.replace(/-/g, "")}">${OFFICE.mobile}</a> · 사무소 <a href="tel:${OFFICE.office.replace(/-/g, "")}">${OFFICE.office}</a> · <a href="${OFFICE.kakao}" target="_blank" rel="noopener">카카오 상담</a></p>
-      <p>월~토 09:00~20:00 · 매주 일요일, 둘째·넷째 토요일 휴무 · 전화상담은 휴무일에도 가능</p>
-      <p><a href="${OFFICE.privacy}" target="_blank" rel="noopener">개인정보 처리방침</a></p>
+      <div class="col">
+        <b>${OFFICE.name}</b>
+        <p>대표 공인중개사 ${OFFICE.ceo} · 중개사무소 등록번호 ${OFFICE.regNo}</p>
+        <p>${OFFICE.address}</p>
+        <p>휴대폰 <a href="${tel(OFFICE.mobile)}">${OFFICE.mobile}</a> · 사무소 <a href="${tel(OFFICE.office)}">${OFFICE.office}</a> · <a href="${OFFICE.kakao}" target="_blank" rel="noopener">카카오 상담</a></p>
+      </div>
+      <div class="col hours">
+        <b>영업시간</b>
+        <p>월~토 09:00~20:00</p>
+        <p>매주 일요일, 둘째·넷째 토요일 휴무</p>
+        <p>전화상담은 휴무일에도 가능</p>
+        <p style="margin-top:8px"><a href="${OFFICE.privacy}" target="_blank" rel="noopener">개인정보 처리방침</a></p>
+      </div>
     </div>
   </footer>
   <nav class="bottom-bar" aria-label="빠른 문의">
-    <a class="btn btn-pink" href="tel:${OFFICE.mobile.replace(/-/g, "")}">전화</a>
+    <a class="btn btn-dark" href="${tel(OFFICE.mobile)}">전화</a>
     <a class="btn btn-kakao" href="${OFFICE.kakao}" target="_blank" rel="noopener">카카오 상담</a>
     <a class="btn btn-line" href="${OFFICE.requestForm}" target="_blank" rel="noopener">조건 남기기</a>
   </nav>`);
@@ -156,7 +178,7 @@ function updatedText(data) {
 }
 
 const EMPTY = `<div class="empty">조건에 맞는 매물이 지금은 없습니다.<br>조건을 남겨 주시면 맞는 매물이 나올 때 연락드립니다.<br><br>
-  <a class="btn btn-pink" href="${OFFICE.requestForm}" target="_blank" rel="noopener">조건 남기기</a></div>`;
+  <a class="btn btn-dark" href="${OFFICE.requestForm}" target="_blank" rel="noopener">조건 남기기</a></div>`;
 
 const pages = {
   async home() {
@@ -164,8 +186,8 @@ const pages = {
     const quick = data.listings.filter((l) => l.tags.length).slice(0, 6);
     // 빠른거래에 이미 나온 매물은 최근 등록에서 빼고, 남는 게 없으면 칸을 숨긴다
     const recent = data.listings.filter((l) => !quick.includes(l)).sort((a, b) => b.registered.localeCompare(a.registered)).slice(0, 6);
-    fill("#quick-list", quick.length ? quick.map(cardHtml).join("") : EMPTY);
-    if (recent.length) fill("#recent-list", recent.map(cardHtml).join(""));
+    fill("#quick-list", quick.length ? ledgerHtml(quick) : EMPTY);
+    if (recent.length) fill("#recent-list", ledgerHtml(recent));
     else document.querySelector("#recent-section").hidden = true;
     fill("#updated", updatedText(data));
   },
@@ -202,7 +224,7 @@ const pages = {
       };
       list.sort(sorters[f.sort] || sorters.recent);
       fill("#count", `${list.length}건`);
-      fill("#list", list.length ? list.map(cardHtml).join("") : EMPTY);
+      fill("#list", list.length ? ledgerHtml(list) : EMPTY);
       const q = new URLSearchParams();
       for (const [k, v] of Object.entries(f)) if (v && !(k === "sort" && v === "recent")) q.set(k, v === "on" ? "1" : v);
       history.replaceState(null, "", q.toString() ? `?${q}` : location.pathname);
@@ -219,7 +241,7 @@ const pages = {
     const show = (tab) => {
       tabs.forEach((t) => t.setAttribute("aria-current", t.dataset.tab === tab ? "page" : "false"));
       const list = data.listings.filter((l) => (tab === "전체" ? l.tags.length : l.tags.includes(tab)));
-      fill("#list", list.length ? list.map(cardHtml).join("") : EMPTY);
+      fill("#list", list.length ? ledgerHtml(list) : EMPTY);
     };
     tabs.forEach((t) => t.addEventListener("click", (e) => { e.preventDefault(); show(t.dataset.tab); }));
     fill("#updated", updatedText(data));
@@ -231,24 +253,17 @@ const pages = {
     const id = new URLSearchParams(location.search).get("id");
     const l = data.listings.find((x) => x.id === id);
     if (!l) {
-      fill("#detail", `<div class="empty">거래가 완료됐거나 내려간 매물입니다.<br><br><a class="btn btn-pink" href="listings.html">다른 매물 보기</a></div>`);
+      fill("#detail", `<div class="empty">거래가 완료됐거나 내려간 매물입니다.<br><br><a class="btn btn-dark" href="listings.html">다른 매물 보기</a></div>`);
       return;
     }
     document.title = `${title(l)} | 로데오부동산`;
-    const photos = l.photos.length
-      ? l.photos.map((p) => `<div class="card-photo"><img src="${esc(p)}" alt="${esc(title(l))} 사진" loading="lazy"></div>`).join("")
-      : photoHtml(l, false);
-    const rows = [
-      ["매물번호", l.id],
+    const specs = [
       ["거래 형태", l.dealType],
       ["매물 종류", l.propertyType],
       ["소재지", `고양시 덕양구 ${l.dong} (${l.building})`],
       ["해당 층", `${l.floor}층`],
       ["전용면적", area(l.area)],
-      ["보증금", `${won(l.deposit)}만원`],
-      ["월세", `${won(l.rent)}만원`],
-      ["관리비", l.maintenance ? `${won(l.maintenance)}만원` : "문의"],
-      ["권리금", l.premium ? `${won(l.premium)}만원` : premiumText(l.premium)],
+      ["관리비", l.maintenance ? `월 ${won(l.maintenance)}만원` : "문의"],
       ["현재 업종", l.business || (l.vacant ? "공실" : "문의")],
       ["업종 제한", l.restriction ? `${l.restriction} 제한` : "없음"],
       ["입점 가능일", l.available || "문의"],
@@ -257,33 +272,40 @@ const pages = {
       ["엘리베이터", l.elevator === true ? "있음" : l.elevator === false ? "없음" : "문의"],
       ["총 층수 · 사용승인일 · 방향", "문의"],
       ["등록일", l.registered],
-    ].map(([k, v]) => `<tr><th>${k}</th><td>${esc(v)}</td></tr>`).join("");
+    ].map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("");
+    const premium = l.premium ? `${won(l.premium)}만원` : premiumText(l.premium);
     fill("#detail", `
+      <p class="crumbs"><a href="index.html">홈</a> / <a href="listings.html">매물 보기</a> / ${esc(l.id)}</p>
       <div class="detail-grid">
-        <div>
-          <div class="gallery">${photos}</div>
+        <div class="detail-main">
+          <div class="gallery">${photoHtml(l)}</div>
+          <div class="detail-tags"><span class="c-id">${esc(l.id)}</span>${tagHtml(l.tags)}${l.available === "즉시" ? '<span class="tag solid">즉시 입점 가능</span>' : ""}</div>
+          <h1>${esc(l.dong)} ${esc(title(l))}</h1>
+          ${l.description ? `<p class="desc">${esc(l.description)}</p>` : '<p class="desc"></p>'}
+          <h2>매물 정보</h2>
+          <dl class="spec">${specs}</dl>
+          <h2>중개사무소 정보</h2>
+          <p class="office-box">${OFFICE.name} · 대표 공인중개사 ${OFFICE.ceo} · 등록번호 ${OFFICE.regNo} · ${OFFICE.address} · ${OFFICE.office}</p>
+          <p class="note">표시된 금액과 조건은 등록일 기준이며, 계약 전 현장과 서류로 다시 확인해 안내드립니다.</p>
         </div>
-        <div>
-          <div class="card-tags" style="position:static;margin-bottom:8px">${tagHtml(l.tags)}</div>
-          <h1>${esc(title(l))}</h1>
-          <div class="price" style="font-size:22px">보증금 ${won(l.deposit)} / 월세 ${won(l.rent)} <small>만원</small></div>
-          <p class="card-spec">권리금 ${l.premium ? `${won(l.premium)}만원` : premiumText(l.premium)} · 전용 ${area(l.area)}</p>
-          ${l.description ? `<p>${esc(l.description)}</p>` : ""}
-          <div class="ask-box">
-            <p>이 매물은 <span class="id">${esc(l.id)}</span> 번으로 문의해 주세요.</p>
-            <div class="btn-row">
-              <a class="btn btn-pink" href="tel:${OFFICE.mobile.replace(/-/g, "")}">전화 ${OFFICE.mobile}</a>
-              <a class="btn btn-kakao" href="${OFFICE.kakao}" target="_blank" rel="noopener" data-kakao="${esc(l.id)}">카카오 상담</a>
-              <a class="btn btn-line" href="tel:${OFFICE.office.replace(/-/g, "")}">사무소 ${OFFICE.office}</a>
-            </div>
+        <aside class="detail-side" aria-label="가격과 문의">
+          <p class="side-label">보증금 / 월세 (만원)</p>
+          <p class="side-price">${priceText(l)}</p>
+          <div class="side-sub">
+            <div><p class="side-label">권리금</p><p>${premium}</p></div>
+            <div><p class="side-label">관리비</p><p>${l.maintenance ? `${won(l.maintenance)}만원` : "문의"}</p></div>
           </div>
-        </div>
-      </div>
-      <h2 style="margin-top:32px">매물 정보</h2>
-      <table class="spec">${rows}</table>
-      <p class="note">표시된 금액과 조건은 등록일 기준이며, 계약 전 현장과 서류로 다시 확인해 안내드립니다.</p>`);
+          <p style="margin:0">문의하실 때 <b>매물번호 ${esc(l.id)}</b>를 말씀해 주세요.</p>
+          <div class="side-actions">
+            <a class="btn btn-dark" href="tel:${OFFICE.mobile.replace(/-/g, "")}">전화 ${OFFICE.mobile}</a>
+            <a class="btn btn-kakao" href="${OFFICE.kakao}" target="_blank" rel="noopener" data-kakao="${esc(l.id)}">카카오로 문의</a>
+            <a class="btn btn-line" href="tel:${OFFICE.office.replace(/-/g, "")}">사무소 ${OFFICE.office}</a>
+          </div>
+          <p class="note" style="margin:16px 0 0">월~토 09:00~20:00 · 전화상담은 휴무일에도 가능 · 방문 시 1시간 30분 무료 주차</p>
+        </aside>
+      </div>`);
     const similar = data.listings.filter((x) => x.id !== l.id).sort((a, b) => Math.abs(a.area - l.area) - Math.abs(b.area - l.area)).slice(0, 3);
-    fill("#similar", similar.map(cardHtml).join(""));
+    fill("#similar", ledgerHtml(similar));
   },
 };
 
