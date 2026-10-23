@@ -186,3 +186,5 @@ h2 { font-size: 22px; }
 a .card-photo { text-decoration: none; }
 .card > a { text-decoration: none; }
 .card-photo.no-photo { aspect-ratio: 16 / 6; background: linear-gradient(135deg, var(--pink-soft), #eef0f8); color: var(--navy); font-weight: 700; }
+.hero-logo { max-width: 420px; width: 100%; justify-self: center; }
+.hero-photo img { width: 100%; height: auto; }
