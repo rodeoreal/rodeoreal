@@ -22,15 +22,16 @@ function renderChrome() {
   const here = location.pathname.split("/").pop() || "index.html";
   const navLinks = NAV.filter(([href]) => href !== "index.html")
     .map(([href, label]) => `<a href="${href}"${href === here ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  const quickLink = `<a href="${OFFICE.requestForm}" target="_blank" rel="noopener">급매물 보기</a>`;
   const tel = (n) => `tel:${n.replace(/-/g, "")}`;
   document.body.insertAdjacentHTML("afterbegin", `
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="index.html"><img src="images/logo-mark.webp" alt="" width="48" height="48"><span><b>로데오부동산</b><small>화정동 상가 · 점포 전문 중개</small></span></a>
-      <nav class="nav" aria-label="주 메뉴">${navLinks}<a href="${OFFICE.requestForm}" target="_blank" rel="noopener">조건 남기기</a></nav>
+      <nav class="nav" aria-label="주 메뉴">${navLinks}${quickLink}</nav>
       <a class="header-call" href="${tel(OFFICE.mobile)}">${OFFICE.mobile}</a>
     </div>
-    <nav class="subnav" aria-label="모바일 메뉴">${navLinks}</nav>
+    <nav class="subnav" aria-label="모바일 메뉴">${navLinks}${quickLink}</nav>
   </header>`);
   document.body.insertAdjacentHTML("beforeend", `
   <footer class="site-footer">
