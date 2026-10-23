@@ -14,7 +14,6 @@ const OFFICE = {
 const NAV = [
   ["index.html", "홈"],
   ["listings.html", "매물 보기"],
-  ["quick.html", "빠른거래"],
   ["about.html", "사무소 소개"],
 ];
 
@@ -301,7 +300,7 @@ const pages = {
             <a class="btn btn-kakao" href="${OFFICE.kakao}" target="_blank" rel="noopener" data-kakao="${esc(l.id)}">카카오로 문의</a>
             <a class="btn btn-line" href="tel:${OFFICE.office.replace(/-/g, "")}">사무소 ${OFFICE.office}</a>
           </div>
-          <p class="note" style="margin:16px 0 0">월~토 09:00~20:00 · 전화상담은 휴무일에도 가능 · 방문 시 1시간 30분 무료 주차</p>
+          <p class="note" style="margin:16px 0 0">월~토 09:00~20:00 · 전화상담은 휴무일에도 가능 · 방문 시 2시간 무료 주차</p>
         </aside>
       </div>`);
     const similar = data.listings.filter((x) => x.id !== l.id).sort((a, b) => Math.abs(a.area - l.area) - Math.abs(b.area - l.area)).slice(0, 3);
