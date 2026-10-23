@@ -1,12 +1,12 @@
 :root {
-  --pink: #d6007a;
-  --pink-soft: #fde7f2;
-  --navy: #1b2a6b;
+  --pink: #8a1f2c;
+  --pink-soft: #f6efe2;
+  --navy: #5a1a22;
   --text: #1d1d22;
   --muted: #5f6270;
-  --line: #e4e5ea;
+  --line: #e8e1d4;
   --bg: #ffffff;
-  --bg-alt: #f6f7f9;
+  --bg-alt: #faf7f1;
   --radius: 12px;
 }
 
@@ -105,7 +105,7 @@ h2 { font-size: 22px; }
 .card-tags { position: absolute; top: 10px; left: 10px; display: flex; gap: 4px; flex-wrap: wrap; }
 .tag { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: var(--navy); color: #fff; }
 .tag.urgent { background: var(--pink); }
-.tag.free { background: #0a7d4f; }
+.tag.free { background: #a8781c; }
 .card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
 .card-meta { font-size: 13px; color: var(--muted); }
 .card-title { font-size: 18px; font-weight: 700; margin: 0; }
@@ -185,6 +185,6 @@ h2 { font-size: 22px; }
 .filters select, .filters input { width: 100%; }
 a .card-photo { text-decoration: none; }
 .card > a { text-decoration: none; }
-.card-photo.no-photo { aspect-ratio: 16 / 6; background: linear-gradient(135deg, var(--pink-soft), #eef0f8); color: var(--navy); font-weight: 700; }
+.card-photo.no-photo { aspect-ratio: 16 / 6; background: linear-gradient(135deg, var(--pink-soft), #efe6d6); color: var(--navy); font-weight: 700; }
 .hero-logo { max-width: 420px; width: 100%; justify-self: center; }
 .hero-photo img { width: 100%; height: auto; }
