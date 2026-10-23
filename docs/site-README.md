@@ -1,6 +1,6 @@
-# 로데오부동산 공개 홈페이지 (`site/`)
+# 로데오부동산 공개 홈페이지 (저장소 루트)
 
-정적 HTML/CSS/JS. 빌드 도구 없음. 모든 경로가 상대경로라 GitHub Pages(`/rodeoreal/site/`)와 Netlify(`site/`를 배포 폴더로 지정) 어디서나 동작한다.
+정적 HTML/CSS/JS. 빌드 도구 없음. 모든 경로가 상대경로다. 2026-10-23 `site/` 폴더에서 저장소 루트로 옮겼다(sanggalab.com 연결을 위해).
 
 - `index.html` 홈: 신뢰 → 전화 유도(로데오거리 사진, 창업/양도/건물주 안내, 대표 소개, 상가랩 블로그 글, 오시는 길). 스타일은 파일 안에 있다.
 - `about.html` 사무소 소개: 공통 머리말·바닥글은 `assets/app.js`, 스타일은 `assets/style.css`.

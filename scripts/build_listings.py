@@ -1,4 +1,4 @@
-"""구글시트 '로데오 공개매물' 탭을 CSV로 받아 site/data/listings.json을 만든다.
+"""구글시트 '로데오 공개매물' 탭을 CSV로 받아 data/listings.json을 만든다.
 
 사용법: python3 scripts/build_listings.py 공개매물.csv
 - '공개(Y)' 칸이 Y/y인 줄만, 상태가 '계약완료'가 아닌 줄만 넣는다.
