@@ -27,7 +27,7 @@ function renderChrome() {
   document.body.insertAdjacentHTML("afterbegin", `
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="index.html"><img src="images/logo-mark.webp" alt="" width="48" height="48"><span><b>로데오부동산</b><small>화정동 상가 · 점포 전문 중개</small></span></a>
+      <a class="brand" href="index.html"><img src="images/logo-mark.webp" alt="" width="48" height="48"><span><b>로데오부동산</b><small>상가·점포 임대 매매 · 양도양수 전문</small></span></a>
       <nav class="nav" aria-label="주 메뉴">${navLinks}${quickLink}</nav>
       <a class="header-call" href="${tel(OFFICE.mobile)}">${OFFICE.mobile}</a>
     </div>
