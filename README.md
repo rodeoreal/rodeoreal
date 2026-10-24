@@ -6,7 +6,7 @@
 |---|---|
 | `index.html`, `about.html` | 홈, 사무소 소개 |
 | `assets/`, `images/` | 공통 스타일·스크립트, 사진 |
-| `CNAME` | 연결 도메인 (sanggalab.com, 블루웹 DNS 설정 후 추가) |
+| `CNAME` | 연결 도메인 sanggalab.com (DNS는 클라우드플레어에서 관리) |
 | `docs/site-README.md` | 홈페이지 구성 설명 |
 | `staff/` | 예전 사내용 상가 물건 관리 화면 (동작하지 않음, 보관용) |
 
