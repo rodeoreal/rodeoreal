@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /docs/
+Disallow: /scripts/
+
+Sitemap: https://sanggalab.com/sitemap.xml
