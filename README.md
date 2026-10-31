@@ -5,6 +5,7 @@
 | 경로 | 내용 |
 |---|---|
 | `index.html`, `about.html` | 홈, 사무소 소개 |
+| `card/` | 모바일 웹명함 (sanggalab.com/card/). 전화·문자·카톡·지도 버튼, 연락처 저장(.vcf) |
 | `assets/`, `images/` | 공통 스타일·스크립트, 사진 |
 | `CNAME` | 연결 도메인 sanggalab.com (DNS는 클라우드플레어에서 관리) |
 | `docs/site-README.md` | 홈페이지 구성 설명 |
