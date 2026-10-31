@@ -39,7 +39,7 @@
     color: var(--ink);
     font-family: "Noto Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
     line-height: 1.4;
-    padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+    padding: 12px 12px calc(24px + env(safe-area-inset-bottom));
   }
   a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: rgba(0,0,0,.06); }
   .wrap { max-width: 440px; margin: 0 auto; }
@@ -47,7 +47,7 @@
   .card {
     background: var(--card);
     border-radius: 20px;
-    padding: 32px 20px 24px;
+    padding: 28px 14px 22px;
     box-shadow: 0 2px 16px rgba(0,0,0,.06);
   }
   .head { text-align: center; }
@@ -57,19 +57,23 @@
     font-size: clamp(40px, 13vw, 56px);
     letter-spacing: -1px;
     line-height: 1.1;
+    white-space: nowrap;
   }
   .tag {
     color: var(--orange);
     font-weight: 700;
     font-size: clamp(19px, 5.6vw, 24px);
     margin-top: 10px;
+    white-space: nowrap;
   }
   .name {
     margin-top: 18px;
     display: flex; align-items: baseline; justify-content: center; gap: 10px;
+    white-space: nowrap;
   }
-  .name small { font-size: 14px; color: var(--sub); }
-  .name strong { font-size: 26px; font-weight: 900; letter-spacing: 4px; }
+  .name { font-size: 26px; }
+  .name small { font-size: .54em; color: var(--sub); }
+  .name strong { font-size: 1em; font-weight: 900; letter-spacing: .15em; }
 
   .call-main {
     margin-top: 22px;
@@ -81,6 +85,7 @@
     font-size: clamp(22px, 7vw, 28px);
     font-weight: 700;
     letter-spacing: .5px;
+    white-space: nowrap;
   }
   .call-main:active { background: var(--green-dark); }
   .call-main svg { width: 26px; height: 26px; flex: none; }
@@ -88,7 +93,7 @@
 
   .grid {
     margin-top: 16px;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
   }
   .grid a {
     display: flex; flex-direction: column; align-items: center; gap: 6px;
@@ -96,7 +101,12 @@
     border: 1px solid var(--line);
     border-radius: 12px;
     font-size: 13px; font-weight: 500;
+    white-space: nowrap;
+    min-width: 0; overflow: hidden;
   }
+  /* 글자 확대로 4칸이 넘치면 2칸×2줄로 전환 */
+  .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid.two a { flex-direction: row; justify-content: center; gap: 8px; padding: 10px 6px; }
   .grid a:active { background: #F6F6F6; }
   .grid .ic {
     width: 40px; height: 40px; border-radius: 50%;
@@ -153,12 +163,12 @@
 <main class="wrap">
   <section class="card">
     <div class="head">
-      <h1 class="logo">로데오부동산</h1>
-      <p class="tag">상가·점포 전문중개</p>
-      <p class="name"><small>대표/공인중개사</small><strong>류재철</strong></p>
+      <h1 class="logo" data-fit>로데오부동산</h1>
+      <p class="tag" data-fit>상가·점포 전문중개</p>
+      <p class="name" data-fit><small>대표/공인중개사</small><strong>류재철</strong></p>
     </div>
 
-    <a class="call-main" href="tel:01089810202" aria-label="휴대폰 010-8981-0202 전화 걸기">
+    <a class="call-main" data-fit href="tel:01089810202" aria-label="휴대폰 010-8981-0202 전화 걸기">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
       010-8981-0202
     </a>
@@ -175,7 +185,7 @@
       </a>
       <a href="http://pf.kakao.com/_aiXNs/chat">
         <span class="ic k"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.5C6.8 3.5 2.6 6.8 2.6 10.9c0 2.6 1.8 5 4.4 6.3l-1 3.6c-.1.3.3.6.6.4l4.2-2.8c.4 0 .8.1 1.2.1 5.2 0 9.4-3.3 9.4-7.4S17.2 3.5 12 3.5z"/></svg></span>
-        카톡 상담
+        카톡
       </a>
       <a href="https://sanggalab.com">
         <span class="ic o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>
@@ -237,6 +247,25 @@
 <div class="toast" id="toast"></div>
 
 <script>
+  // 휴대폰 글자 크기 설정과 관계없이 로고·번호를 한 줄로 화면 폭에 맞춤
+  function fit() {
+    document.querySelectorAll('[data-fit]').forEach(function (el) {
+      el.style.fontSize = '';
+      for (var i = 0; i < 4 && el.scrollWidth > el.clientWidth; i++) {
+        var fs = parseFloat(getComputedStyle(el).fontSize);
+        el.style.fontSize = (fs * el.clientWidth / el.scrollWidth * 0.98) + 'px';
+      }
+    });
+    var grid = document.querySelector('.grid');
+    grid.classList.remove('two');
+    var over = Array.prototype.some.call(grid.children, function (a) { return a.scrollWidth > a.clientWidth; });
+    if (over) grid.classList.add('two');
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
   function toast(msg) {
     var t = document.getElementById('toast');
     t.textContent = msg; t.classList.add('on');
