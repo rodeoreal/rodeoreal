@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>로데오부동산 | 매물 안내문자 생성기</title>
+<style>
+:root{font-family:'Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;color:#16213b;background:#f2f5fa}*{box-sizing:border-box}body{margin:0}header{background:#132747;color:white;padding:21px max(18px,calc((100vw - 1050px)/2))}header h1{font-size:22px;margin:0 0 5px}header p{margin:0;color:#cbd7e8;font-size:13px}.wrap{max-width:1070px;margin:20px auto;padding:0 13px;display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel{background:#fff;border-radius:13px;padding:21px;box-shadow:0 2px 11px #12243d0e}.panel h2{font-size:18px;margin:0 0 16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.wide{grid-column:1/-1}label.field{font-size:13px;font-weight:700;display:block}input[type=text],input[type=number],textarea,select{font:inherit;width:100%;border:1px solid #cbd3e0;background:#fff;border-radius:7px;padding:11px;margin-top:6px;outline-color:#2b62c5}textarea{resize:vertical;min-height:75px}.checkrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding-top:8px;font-size:14px}.checkrow label{display:flex;align-items:center;gap:5px;cursor:pointer}.checkrow input{width:18px;height:18px;accent-color:#245eb3}.hint{font-size:12px;color:#65728a;line-height:1.55;margin:6px 0 0}.pill{display:inline-block;border-radius:99px;background:#eaf2ff;color:#2155a2;padding:3px 8px;font-size:11px;font-weight:700}button{cursor:pointer;border:0;border-radius:8px;font-size:14px;font-weight:700;padding:12px 16px}button.primary{background:#225fc5;color:white}button.secondary{background:#e7eef9;color:#1e4b91}button.ghost{background:#f4f5f7;color:#526079}.actions{display:flex;gap:8px;flex-wrap:wrap}.preview{white-space:pre-wrap;word-break:break-word;border:1px solid #dce3ed;background:#f8fafc;border-radius:9px;padding:17px;min-height:290px;line-height:1.7;font-size:14px;margin:14px 0}.switch{display:flex;gap:5px;background:#f0f3f9;border-radius:9px;padding:4px;margin-top:8px}.switch button{flex:1;background:transparent;color:#475569}.switch button.active{background:white;box-shadow:0 1px 5px #0002;color:#184da1}.foot{max-width:1070px;margin:0 auto 30px;padding:0 18px;color:#64748b;font-size:12px;line-height:1.7}.status{min-height:19px;font-size:13px;color:#13663d;margin-top:12px}.subhead{font-size:14px;margin:18px 0 9px;border-top:1px solid #edf1f6;padding-top:14px}.compact{margin-top:8px}.length{color:#64748b;font-size:12px;text-align:right}@media(max-width:740px){.wrap{grid-template-columns:1fr}.panel{padding:16px}header{padding:19px 16px}}@media(max-width:360px){.fields{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h1>로데오부동산 | 매물 안내문자 생성기</h1><p>매물 조건을 입력하면 손님용 문자 안내문이 자동으로 만들어집니다.</p></header>
+<main class="wrap">
+<section class="panel" aria-labelledby="inputtitle"><h2 id="inputtitle">1. 매물 조건 입력 <span class="pill">자동 저장</span></h2>
+<div class="fields">
+<label class="field wide">위치 / 건물명<input id="location" type="text" placeholder="예: 화정역 중심상업지구, ○○빌딩"/></label>
+<div><label class="field" for="floor">층수</label><input id="floor" type="text" inputmode="numeric" placeholder="예: 1 또는 -1"/><div class="checkrow"><label><input id="basement" type="checkbox"/> 지하</label></div><span class="hint">숫자만 입력 · 지하는 체크하거나 -1 입력 (문자에는 지하1층으로 표기)</span></div>
+<label class="field">실면적 (평)<input id="area" type="text" inputmode="decimal" placeholder="예: 14"/><span class="hint">숫자만 입력 · 실·평 자동 표기</span></label>
+<label class="field">보증금 (만원)<input id="deposit" type="text" inputmode="decimal" placeholder="예: 3000"/></label>
+<label class="field">월세 (만원)<input id="rent" type="text" inputmode="decimal" placeholder="예: 200"/></label>
+<label class="field">관리비 (만원)<input id="maintenance" type="text" inputmode="decimal" placeholder="예: 30"/></label>
+<div class="wide"><label class="field">월세 부가세</label><div class="checkrow" role="radiogroup" aria-label="월세 부가세"><label><input type="radio" name="vatChoice" value="없음"/> 없음</label><label><input type="radio" name="vatChoice" value="별도"/> 별도</label><label><input type="radio" name="vatChoice" value="" checked/> 표기 안 함</label></div><input id="vat" type="hidden" value=""/><p class="hint">세 가지 중 하나만 선택 · 표기 안 함을 선택하면 문자에서 부가세 안내를 생략합니다.</p></div>
+<div class="wide"><label class="field" for="premium">권리금 (만원)</label><div class="checkrow"><label><input id="noPremium" type="checkbox"/> 권리금 없음</label></div><input id="premium" type="text" inputmode="decimal" placeholder="권리금이 있으면 입력"/></div>
+<div class="wide"><label class="field">입점 시기</label><div class="checkrow"><label><input id="immediate" type="checkbox"/> 즉시</label><label><input id="negotiable" type="checkbox"/> 협의</label></div><input id="moveCustom" type="text" placeholder="기타 시기 (예: 12월 중순)"/><p class="hint">즉시·협의는 동시에 선택할 수 있습니다. 체크하면 기타 시기보다 우선 표시합니다.</p></div>
+<label class="field wide">특징 / 참고사항<textarea id="features" placeholder="예: 엘리베이터 있음, 음식점 업종 협의 가능 (확인된 사실만 기재)"></textarea></label>
+</div>
+</section>
+<section class="panel"><h2>2. 손님에게 보낼 문자</h2><div class="switch" role="group" aria-label="문자 유형"><button id="shortBtn" type="button" class="active" aria-pressed="true">간단 안내형</button><button id="detailBtn" type="button" aria-pressed="false">상세 안내형</button></div><p class="hint">손님에게 보내는 문구의 하단에 사무소 정보를 자동으로 넣습니다. 간단형도 사무소 정보를 모두 포함합니다.</p><div class="preview" id="preview" aria-live="polite"></div><div class="length" id="length"></div><div class="actions"><button type="button" id="copyBtn" class="primary">안내문 전체 복사</button><button type="button" id="smsBtn" class="secondary">문자 앱 열기</button><button type="button" id="downloadBtn" class="ghost">TXT 저장</button><button type="button" id="clearBtn" class="ghost">새 매물 (입력 초기화)</button></div><p id="status" class="status" role="status"></p><p class="hint">'문자 앱 열기'는 기기별 지원 여부가 다르며 자동 발송되지 않습니다. 수신번호는 문자 앱에서 확인 후 입력하세요.</p></section>
+</main>
+<div class="foot">※ 이 프로그램은 브라우저 내부에 입력 내용을 저장합니다. 다른 PC·휴대전화로 자동 동기화되지 않으며, 브라우저 데이터를 삭제하면 저장값이 사라질 수 있습니다.<br/>※ 매물 정보·부가세·면적 기준 등을 실제 계약 조건과 대조한 뒤 발송하세요. SMS/LMS 구분 및 발송 요금은 통신사와 기기에 따라 다릅니다.</div>
+<script>
+(()=>{'use strict';
+const ids=['location','floor','basement','area','deposit','rent','maintenance','vat','noPremium','premium','immediate','negotiable','moveCustom','features'];
+const el=id=>document.getElementById(id);let mode='short';
+const read=id=>el(id).type==='checkbox'?el(id).checked:el(id).value.trim();
+const formatMoney=s=> /^\d+(?:\.\d+)?$/.test(s.replace(/,/g,'')) ?Number(s.replace(/,/g,'')).toLocaleString('ko-KR'):s;
+const row=(label,value,unit='')=>value?`- ${label}: ${value}${unit}\n`:'';
+const floorText=(v,b)=>{if(!v)return '';const n=v.replace(/층$/,'').replace(/^지하\s*/,'').trim();const neg=b||/^-/.test(n)||/^지하/.test(v);return (neg?'지하':'')+n.replace(/^-/,'')+'층'};
+const areaText=v=>v?`실${v.replace(/^실/,'').replace(/평$/,'')}평`:'';
+const floorArea=(f,a,b)=>[floorText(f,b),areaText(a)].filter(Boolean).join('/');
+const footer='■ 로데오부동산(류재철)공인중개사사무소\n대표: 류재철 공인중개사\n등록번호: 다-34-2535\n주소: 경기도 고양시 덕양구 화신로272번길38 101호(성보프라자 1층)\n휴대전화: 010-8981-0202\n전화: 031-938-5555\n홈페이지: https://sanggalab.com\n카카오 상담: http://pf.kakao.com/_aiXNs/chat';
+function generate(){
+const where=read('location'), floor=read('floor'), basement=read('basement'), area=read('area');
+const deposit=read('deposit'),rent=read('rent'),maintenance=read('maintenance');
+const vat=read('vat');let premium=read('noPremium')?'없음':(read('premium')?formatMoney(read('premium'))+'만원':'');
+const move=[read('immediate')?'즉시':'',read('negotiable')?'협의':''].filter(Boolean).join(' / ')||read('moveCustom');
+const features=read('features');
+let s='■ 상가 매물 안내\n';
+if(mode==='short'){
+s+=row('위치',where);s+=row('층·면적',floorArea(floor,area,basement));
+s+=row('보증금',deposit?formatMoney(deposit)+'만원':'');s+=row('월세',rent?formatMoney(rent)+'만원'+(vat?' (부가세 '+vat+')':''):'');
+s+=row('관리비',maintenance?formatMoney(maintenance)+'만원':'');s+=row('권리금',premium);s+=row('입점 시기 📅',move);
+if(features)s+=row('특징',features);
+}else{
+s+=row('위치',where);s+=row('층·면적',floorArea(floor,area,basement));
+s+=row('보증금',deposit?formatMoney(deposit)+'만원':'');s+=row('월세',rent?formatMoney(rent)+'만원':'');
+if(vat)s+=row('월세 부가세',vat);s+=row('관리비',maintenance?formatMoney(maintenance)+'만원':'');s+=row('권리금',premium);s+=row('입점 시기 📅',move);
+if(features)s+='\n■ 매물 특징\n'+features+'\n';
+}
+s+='\n'+footer;return s;
+}
+function refresh(){document.querySelectorAll('input[name=vatChoice]').forEach(r=>{r.checked=r.value===read('vat')});el('premium').disabled=read('noPremium');el('moveCustom').disabled=read('immediate')||read('negotiable');let s=generate();el('preview').textContent=s;el('length').textContent=`${s.length.toLocaleString('ko-KR')}자 (공백 포함)`;el('shortBtn').classList.toggle('active',mode==='short');el('detailBtn').classList.toggle('active',mode==='detail');el('shortBtn').setAttribute('aria-pressed',mode==='short');el('detailBtn').setAttribute('aria-pressed',mode==='detail');}
+function save(){try{localStorage.setItem('rodeorealty-message-v1',JSON.stringify({values:Object.fromEntries(ids.map(id=>[id,read(id)])),mode}))}catch(e){}refresh()}
+try{const d=JSON.parse(localStorage.getItem('rodeorealty-message-v1')||'null');if(d&&d.values){if(d.values.vat==='포함')d.values.vat='';for(const id of ids){if(Object.hasOwn(d.values,id)){if(el(id).type==='checkbox')el(id).checked=!!d.values[id];else el(id).value=d.values[id]}}mode=d.mode==='detail'?'detail':'short'}}catch(e){}
+ids.forEach(id=>{el(id).addEventListener('input',save);el(id).addEventListener('change',save)});document.querySelectorAll('input[name=vatChoice]').forEach(r=>r.addEventListener('change',()=>{if(r.checked){el('vat').value=r.value;save()}}));
+el('shortBtn').addEventListener('click',()=>{mode='short';save()});el('detailBtn').addEventListener('click',()=>{mode='detail';save()});
+el('clearBtn').addEventListener('click',()=>{if(!confirm('매물 입력 내용을 초기화할까요?'))return;ids.forEach(id=>{if(el(id).type==='checkbox')el(id).checked=false;else el(id).value=''});save();el('status').textContent='입력 내용을 초기화했습니다.'});
+el('copyBtn').addEventListener('click',async()=>{const s=generate();try{await navigator.clipboard.writeText(s);el('status').textContent='문자 내용이 복사되었습니다. 다음 매물은 “새 매물” 버튼으로 초기화 후 입력하세요.'}catch(e){const t=document.createElement('textarea');t.value=s;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.focus();t.select();const ok=document.execCommand('copy');t.remove();el('status').textContent=ok?'문자 내용이 복사되었습니다. 다음 매물은 “새 매물” 버튼으로 초기화 후 입력하세요.':'복사하지 못했습니다. 안내문을 길게 눌러 복사하세요.'}});
+el('smsBtn').addEventListener('click',()=>{const body=encodeURIComponent(generate());window.location.href='sms:?body='+body;el('status').textContent='문자 앱이 열리면 받는 사람과 내용을 확인하세요.'});
+el('downloadBtn').addEventListener('click',()=>{const blob=new Blob(['\ufeff'+generate()],{type:'text/plain;charset=utf-8'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='로데오부동산_매물안내문.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);el('status').textContent='TXT 파일을 저장했습니다.'});refresh();
+})();
+</script>
+</body></html>
+
