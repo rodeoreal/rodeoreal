@@ -8,6 +8,7 @@
 | `card/` | 모바일 웹명함 (sanggalab.com/card/). 전화·문자·카톡·지도 버튼, 연락처 저장(.vcf) |
 | `assets/`, `images/` | 공통 스타일·스크립트, 사진 |
 | `CNAME` | 연결 도메인 sanggalab.com (DNS는 클라우드플레어에서 관리) |
+| `rent.html`, `listings.html`, `sale.html` | 검색 키워드별 안내(월세·매물·매매). `scripts/make_keyword_pages.py`로 생성 |
 | `docs/site-README.md` | 홈페이지 구성 설명 |
 
 - `main`에 push하면 GitHub Pages가 자동 배포합니다. `.nojekyll`로 파일을 그대로 올립니다.
