@@ -7,6 +7,7 @@ const OFFICE = {
   mobile: "010-8981-0202",
   office: "031-938-5555",
   kakao: "http://pf.kakao.com/_aiXNs/chat",
+  kakaoFriend: "http://pf.kakao.com/_aiXNs/friend",
   requestForm: "https://rodeo-realty.netlify.app/",
   privacy: "https://rodeo-realty.netlify.app/privacy",
 };
@@ -40,7 +41,7 @@ function renderChrome() {
         <b>${OFFICE.name}</b>
         <p>대표 공인중개사 ${OFFICE.ceo} · 중개사무소 등록번호 ${OFFICE.regNo}</p>
         <p>${OFFICE.address}</p>
-        <p>휴대폰 <a href="${tel(OFFICE.mobile)}">${OFFICE.mobile}</a> · 사무소 <a href="${tel(OFFICE.office)}">${OFFICE.office}</a> · <a href="${OFFICE.kakao}" target="_blank" rel="noopener">카카오 상담</a></p>
+        <p>휴대폰 <a href="${tel(OFFICE.mobile)}">${OFFICE.mobile}</a> · 사무소 <a href="${tel(OFFICE.office)}">${OFFICE.office}</a> · <a href="${OFFICE.kakao}" target="_blank" rel="noopener">카카오 상담</a> · <a href="${OFFICE.kakaoFriend}" target="_blank" rel="noopener">카카오채널 친구 추가</a></p>
       </div>
       <div class="col hours">
         <b>영업시간</b>
