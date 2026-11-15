@@ -7,8 +7,8 @@ const OFFICE = {
   mobile: "010-8981-0202",
   office: "031-938-5555",
   kakao: "http://pf.kakao.com/_aiXNs/chat",
-  requestForm: "https://rodeo-realty.netlify.app/",
-  privacy: "https://rodeo-realty.netlify.app/privacy",
+  requestForm: "https://maemul.sanggalab.com/",
+  privacy: "https://maemul.sanggalab.com/privacy",
 };
 
 const NAV = [
