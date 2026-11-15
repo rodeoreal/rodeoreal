@@ -8,8 +8,8 @@ const OFFICE = {
   office: "031-938-5555",
   kakao: "http://pf.kakao.com/_aiXNs/chat",
   kakaoFriend: "http://pf.kakao.com/_aiXNs/friend",
-  requestForm: "https://rodeo-realty.netlify.app/",
-  privacy: "https://rodeo-realty.netlify.app/privacy",
+  requestForm: "https://maemul.sanggalab.com/",
+  privacy: "https://maemul.sanggalab.com/privacy",
 };
 
 const NAV = [
