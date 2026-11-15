@@ -19,6 +19,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
+<!-- 네이버 광고 전환추적: 공통 스크립트(방문) + 전화·카카오 상담 클릭을 lead 전환으로 기록. 공통키는 광고시스템 도구 > 전환 추적 관리 -->
+<script type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if (!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "s_3eeb133081f5";
+if (window.wcs) { wcs.inflow("sanggalab.com"); wcs_do(); }
+document.addEventListener("click", function (e) {
+  var a = e.target.closest && e.target.closest('a[href^="tel:"], a[href*="pf.kakao.com/_aiXNs/chat"]');
+  if (!a || !window.wcs) return;
+  try { wcs.trans({ type: "lead" }); } catch (err) {}
+}, true);
+</script>
 </head>
 <body data-page="listings">
 <main>

@@ -10,6 +10,9 @@ import html
 import json
 from pathlib import Path
 
+# 네이버 광고 전환추적 스크립트(index.html, about.html과 같은 내용)
+NAVER_WCS = '<!-- 네이버 광고 전환추적: 공통 스크립트(방문) + 전화·카카오 상담 클릭을 lead 전환으로 기록. 공통키는 광고시스템 도구 > 전환 추적 관리 -->\n<script type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>\n<script type="text/javascript">\nif (!wcs_add) var wcs_add = {};\nwcs_add["wa"] = "s_3eeb133081f5";\nif (window.wcs) { wcs.inflow("sanggalab.com"); wcs_do(); }\ndocument.addEventListener("click", function (e) {\n  var a = e.target.closest && e.target.closest(\'a[href^="tel:"], a[href*="pf.kakao.com/_aiXNs/chat"]\');\n  if (!a || !window.wcs) return;\n  try { wcs.trans({ type: "lead" }); } catch (err) {}\n}, true);\n</script>\n'
+
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://sanggalab.com/"
 MAEMUL = "https://maemul.sanggalab.com/"
@@ -190,7 +193,7 @@ def render(page):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-</head>
+{NAVER_WCS}</head>
 <body data-page="{page["file"].split(".")[0]}">
 <main>
 <section class="hero">
